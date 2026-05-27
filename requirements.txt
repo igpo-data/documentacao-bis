@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 streamlit
 pandas
-=======
-streamlit
-pandas
->>>>>>> c288ff076c102e74ddfbd36fe2a1f2cac3b9e6b9
-pillow
+Pillow
