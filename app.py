@@ -15,10 +15,34 @@ st.set_page_config(
 menu = st.sidebar.selectbox(
     "Escolha o BI",
     [
-        "BI Comercial Geral",
-        "BI Acompanhamento Comercial",
-        "BI Análise DFS"
-    ]
+        "Comercial Geral",
+        "Acompanhamento Comercial",
+        "Análise DFSA",
+        "Anomalias e Cancelamentos",
+        "Comercial",
+        "Comprovante de Entrega", 
+        "Contas a Pagar",
+        "Contas a Receber",  
+        "Comprovante de Entrega", 
+        "Controle de Ocorrência",
+        "Cotação",
+        "Custo de Transferência",
+        "Demonstrativo Coleta e Entrega",
+        "Descarga",     
+        "DRE", 
+        "DRE Filiais",
+        "DRE PPR",
+        "E-commerce",
+        "Embarques",
+        "Faturamento",
+        "Inadimplência - Filial",
+        "Indenização",
+        "Performance Geral", 
+        "Produtividade Comercial",
+        "SAC",
+        "Situação Coleta",
+        "SSW Mobile",
+        "Torre de Controle"]
 )
 
 if menu == "BI Comercial Geral":

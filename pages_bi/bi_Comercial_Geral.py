@@ -191,68 +191,65 @@ Um ponto importante que o filtro de unidade está em relação a Unidade que se 
                     <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
         
         components.html("""
-            <div class="mermaid">
-            erDiagram
+                <div class="mermaid">
+                erDiagram
 
-                dim_PeriodoMetaDiaria {
-                    date Data
-                    int flg_DiaUtil
-                    int num_Ano
-                    string nom_Mes
-                    int num_Dia
+                    dim_PeriodoMetaDiaria {
+                        date Data
+                        int flg_DiaUtil
+                        int num_Ano
+                        string nom_Mes
+                        int num_Dia
                     }
 
-                fato_MetaUnidadeDiaria {
-                    numeric % Meta Atingida Diaria
-                    numeric % Meta KG Atingida  Diaria 
-                    numeric % Meta Peso Calculado Atingida Diaria 
-                    numeric  Meta Média KG Diaria 
-                    numeric Valor Meta Peso Calculado KG Diaria
-                    numeric Valor Meta Unidade Diaria 
-                }
+                    fato_MetaUnidadeDiaria {
+                        numeric pct_Meta_Atingida_Diaria
+                        numeric pct_Meta_KG_Atingida_Diaria
+                        numeric pct_Meta_Peso_Calculado_Atingida_Diaria
+                        numeric vlr_Meta_Media_KG_Diaria
+                        numeric vlr_Meta_Peso_Calculado_KG_Diaria
+                        numeric vlr_Meta_Unidade_Diaria
+                    }
 
-                dim_UnidadeBeneficiaria {
-                    int cod_UnidadeBeneficiaria
-                    string nom_RegiaoCentro
-                    nom_VinculoCentro
-                }
+                    dim_UnidadeBeneficiaria {
+                        int cod_UnidadeBeneficiaria
+                        string nom_RegiaoCentro
+                        string nom_VinculoCentro
+                    }
 
+                    dim_PeriodoAutorizacao {
+                        date Data
+                        int flg_DiaUtil
+                        int flg_FeriadoNacional
+                    }
 
-                dim_PeriodoAutorizacao {
-                    date Data
-                    int flg_DiaUtil
-                    int flg_FeriadoNacional
-                }
+                    dim_PeriodoEmissao {
+                        string nom_Bimestre
+                        string nom_BimestreAno
+                        string nom_DiaSemana
+                    }
 
-                dim_PeriodoEmissao {
-                    string nom_Bimestre
-                    string nom_BimestreAno
-                    string nom_DiaSemana
-                }
+                    fato_FreteExpedidoRecebido {
+                        numeric qtd_CTe
+                        numeric vlr_Frete_Bruto
+                        numeric vlr_Frete_Bruto_por_CTe
+                        numeric vlr_Frete_Bruto_por_Peso_Calculado
+                    }
 
-                fato_FreteExpedidoRecebido {
-                    numeric QuantidadeCTe
-                    numeric Valor Freta Bruto
-                    numeric Valor Freta Bruto por CT-e 
-                    numeric Valor Frete Bruto por Peso Calculado
-                        
-                    
-                }
+                    dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
+                    dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
 
-                dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : id_PeriodoMeta
-                dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : id_UnidadeBeneficiaria
-                dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidade : unidade
-                dim_PeriodoAutorizacao ||--o{ fato_MetaUnidade : periodo
-                dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : autorizacao
-                dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : emissao
-                dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : unidade
-            </div>
+                    dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
+                    dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
+                    dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
 
-            <script type="module">
-            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-            mermaid.initialize({ startOnLoad: true });
-            </script>
-            """, height=800)
+                </div>
+
+                <script type="module">
+                import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+                mermaid.initialize({ startOnLoad: true });
+                </script>
+                """, height=800)
 
 
         
@@ -260,14 +257,49 @@ Um ponto importante que o filtro de unidade está em relação a Unidade que se 
     with abas[1]:
         st.markdown("""
                     <h4>Visual:</h4>""", unsafe_allow_html=True)
+        
+        ##### Depois adiciona  diagrama #####
+        ##components.html("""
+               ##<div class="mermaid">
+                ##erDiagram
 
-        st.markdown("Tabelas, views ou arquivos usados neste BI.")
+                   
+                    
+
+                    ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
+                    ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
+
+                    ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
+                    ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
+                    ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
+
+                ##</div>
+
+                ##<script type="module">
+                ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+                ##mermaid.initialize({ startOnLoad: true });
+                ##</script>
+                ##""", height=800)
+
+        st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele Mês, dessa forma, o 
+                    mês de abril há 21 dias úteis tirando os feriados e contabilizando o sabado como 0,25 para fins 
+                    de faturamento. 
+        """ )
+
+        st.image(
+                "img/Comercial_Geral_Visão_Geral_PF.PNG",
+                    caption="Tabela de exportação.",
+                    use_container_width=True
+                     )
 
         st.table({
             "Fonte": ["tabela_exemplo"],
             "Tipo": ["Tabela PostgreSQL"],
             "Descrição": ["Descrever o uso dessa tabela"]
         })
+
+        st.markdown("""
+                    <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
 
     with abas[2]:
         st.header("⚙️ Regras de Negócio")
