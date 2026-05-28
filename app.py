@@ -14,8 +14,8 @@ st.set_page_config(
 
 #st.title("📊 Documentação dos BIs - Carvalima")
 
-menu = st.sidebar.selectbox(
-    "Escolha o BI",
+menu = st.sidebar.radio(
+    "",
     [
         "Comercial Geral",
         "Acompanhamento Comercial",
