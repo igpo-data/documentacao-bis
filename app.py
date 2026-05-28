@@ -2,8 +2,10 @@ import streamlit as st
 from pages_bi import (
     bi_Comercial_Geral,
     bi_Acompanhamento_Comercial,
-    bi_Analise_dfsa
-)
+    bi_Analise_dfsa,
+    modelo,
+    analise_churn
+    )
 
 st.set_page_config(
     page_title="Documentação dos BIs",
@@ -42,15 +44,23 @@ menu = st.sidebar.selectbox(
         "SAC",
         "Situação Coleta",
         "SSW Mobile",
-        "Torre de Controle"]
+        "Torre de Controle",
+        "Analise Churn",
+        "modelo"
+        ]
 )
 
-if menu == "BI Comercial Geral":
+if menu == "Comercial Geral":
     bi_Comercial_Geral.render()
 
-elif menu == "BI Acompanhamento Comercial":
-    bi_Acompanhamento_Comercial.render()
+elif menu == "Analise Churn": 
+    analise_churn.render() 
+    
 
-elif menu == "BI Análise DFS":
-    bi_Analise_dfsa.render()
+elif menu == "Análise DFSA": st.write("Em construção...")
+   
 
+elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
+
+elif menu == "modelo":
+      modelo.render()   

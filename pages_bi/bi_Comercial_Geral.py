@@ -176,130 +176,181 @@ def render():
         st.markdown("""
            O **Realizado**  é o faturamento realizado dividido Meta de Faturamento e mostrado em formato de porcentagem. 
                     \n 
-O **Projetado** é o Frete Projetado dividido pela Meta de Faturamento. Sendo o Frete Projetado o valor do Faturamento Atual 
-dividido pelos dias úteis corridos vezes dias úteis totais. Analisando de fato esse indicador responde à pergunta:
- “Se a operação continuar performando como está hoje, quanto da meta mensal será alcançado?” 
-                    \n
-O **Faturamento** por Tipo de Frete é subdivido entre dois tipo: CIF + TER e FOB. 
-O primeiro representa o valor total de frete das operações em que o pagamento do transporte é responsabilidade do remetente 
-da mercadoria ou algum terceiro, já o segundo é o valor do frete das operações em que o destinatário/cliente é quem paga o transporte. 
- Dentro disso, há metas, realizado e sua porcentagem do quanto que se alcançou. 
-\n 
-Um ponto importante que o filtro de unidade está em relação a Unidade que se Beneficia deste frete. """)
+        O **Projetado** é o Frete Projetado dividido pela Meta de Faturamento. Sendo o Frete Projetado o valor do Faturamento Atual 
+        dividido pelos dias úteis corridos vezes dias úteis totais. Analisando de fato esse indicador responde à pergunta:
+        “Se a operação continuar performando como está hoje, quanto da meta mensal será alcançado?” 
+                            \n
+        O **Faturamento** por Tipo de Frete é subdivido entre dois tipo: CIF + TER e FOB. 
+        O primeiro representa o valor total de frete das operações em que o pagamento do transporte é responsabilidade do remetente 
+        da mercadoria ou algum terceiro, já o segundo é o valor do frete das operações em que o destinatário/cliente é quem paga o transporte. 
+        Dentro disso, há metas, realizado e sua porcentagem do quanto que se alcançou. 
+        \n 
+        Um ponto importante que o filtro de unidade está em relação a Unidade que se Beneficia deste frete. """)
 
         st.markdown("""
                     <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
-        
+    
         components.html("""
-                <div class="mermaid">
-                erDiagram
+                            <div style="width:100%; overflow-x:auto;">
+                            <div class="mermaid">
+                            flowchart LR
 
-                    dim_PeriodoMetaDiaria {
-                        date Data
-                        int flg_DiaUtil
-                        int num_Ano
-                        string nom_Mes
-                        int num_Dia
-                    }
+                                A["dim_PeriodoMetaDiaria<br/>
+                                Data<br/>
+                                flg_DiaUtil<br/>
+                                num_Ano<br/>
+                                nom_Mes<br/>
+                                num_Dia"]
 
-                    fato_MetaUnidadeDiaria {
-                        numeric pct_Meta_Atingida_Diaria
-                        numeric pct_Meta_KG_Atingida_Diaria
-                        numeric pct_Meta_Peso_Calculado_Atingida_Diaria
-                        numeric vlr_Meta_Media_KG_Diaria
-                        numeric vlr_Meta_Peso_Calculado_KG_Diaria
-                        numeric vlr_Meta_Unidade_Diaria
-                    }
+                                B["fato_MetaUnidadeDiaria<br/>
+                                pct_Meta_Atingida<br/>
+                                pct_Meta_KG<br/>
+                                pct_Meta_Peso<br/>
+                                vlr_Meta_Media_KG<br/>
+                                vlr_Meta_Peso_KG<br/>
+                                vlr_Meta_Unidade"]
 
-                    dim_UnidadeBeneficiaria {
-                        int cod_UnidadeBeneficiaria
-                        string nom_RegiaoCentro
-                        string nom_VinculoCentro
-                    }
+                                C["dim_UnidadeBeneficiaria<br/>
+                                cod_Unidade<br/>
+                                nom_RegiaoCentro<br/>
+                                nom_VinculoCentro"]
 
-                    dim_PeriodoAutorizacao {
-                        date Data
-                        int flg_DiaUtil
-                        int flg_FeriadoNacional
-                    }
+                                D["dim_PeriodoAutorizacao<br/>
+                                Data<br/>
+                                flg_DiaUtil<br/>
+                                flg_FeriadoNacional"]
 
-                    dim_PeriodoEmissao {
-                        string nom_Bimestre
-                        string nom_BimestreAno
-                        string nom_DiaSemana
-                    }
+                                E["dim_PeriodoEmissao<br/>
+                                nom_Bimestre<br/>
+                                nom_BimestreAno<br/>
+                                nom_DiaSemana"]
 
-                    fato_FreteExpedidoRecebido {
-                        numeric qtd_CTe
-                        numeric vlr_Frete_Bruto
-                        numeric vlr_Frete_Bruto_por_CTe
-                        numeric vlr_Frete_Bruto_por_Peso_Calculado
-                    }
+                                F["fato_FreteExpedidoRecebido<br/>
+                                qtd_CTe<br/>
+                                vlr_Frete_Bruto<br/>
+                                vlr_Frete_por_CTe<br/>
+                                vlr_Frete_por_Peso"]
 
-                    dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
-                    dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
+                                A -->|Periodo_Meta| B
+                                C -->|Unidade_Meta| B
+                                C -->|Unidade_Frete| F
+                                D -->|id_Periodo| F
+                                E -->|id_PeriodoEmissao| F
 
-                    dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
-                    dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
-                    dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
+                                style A fill:#f7f4ff,stroke:#7b61ff,stroke-width:1px
+                                style B fill:#fff8e8,stroke:#d69e2e,stroke-width:1px
+                                style C fill:#f7f4ff,stroke:#7b61ff,stroke-width:1px
+                                style D fill:#f7f4ff,stroke:#7b61ff,stroke-width:1px
+                                style E fill:#f7f4ff,stroke:#7b61ff,stroke-width:1px
+                                style F fill:#fff8e8,stroke:#d69e2e,stroke-width:1px
 
-                </div>
+                            </div>
+                            </div>
 
-                <script type="module">
-                import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                mermaid.initialize({ startOnLoad: true });
-                </script>
-                """, height=800)
+                            <script type="module">
+                            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
+                            mermaid.initialize({
+                                startOnLoad: true,
+                                theme: "default",
+                                flowchart: {
+                                    nodeSpacing: 90,
+                                    rankSpacing: 120,
+                                    curve: "basis"
+                                },
+                                themeVariables: {
+                                    fontSize: "13px"
+                                }
+                            });
+                            </script>
+                            """, height=700, scrolling=True)
 
         
 ########------------Visão Geral ------------------########
     with abas[1]:
-        st.markdown("""
-                    <h4>Visual:</h4>""", unsafe_allow_html=True)
-        
-        ##### Depois adiciona  diagrama #####
-        ##components.html("""
-               ##<div class="mermaid">
-                ##erDiagram
+                st.markdown("""
+                            <h4>Projeção Filial:</h4>""", unsafe_allow_html=True)
+                
+                ##### Depois adiciona  diagrama #####
+                ##components.html("""
+                    ##<div class="mermaid">
+                        ##erDiagram
 
-                   
-                    
+                        
+                            
 
-                    ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
-                    ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
+                            ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
+                            ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
 
-                    ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
-                    ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
-                    ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
+                            ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
+                            ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
+                            ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
 
-                ##</div>
+                        ##</div>
 
-                ##<script type="module">
-                ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                ##mermaid.initialize({ startOnLoad: true });
-                ##</script>
-                ##""", height=800)
+                        ##<script type="module">
+                        ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+                        ##mermaid.initialize({ startOnLoad: true });
+                        ##</script>
+                        ##""", height=800)
 
-        st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele Mês, dessa forma, o 
-                    mês de abril há 21 dias úteis tirando os feriados e contabilizando o sabado como 0,25 para fins 
-                    de faturamento. 
-        """ )
+                st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele mês, por exemplo, o 
+                            mês de abril de 2026 há 21 dias úteis tirando os feriados e contabilizando o sábado como 0,25 para fins 
+                            de faturamento. 
+                """ )
+                st.markdown("""Outro ponto, o **Realizado**  Valor Frete advindo da 455, tirando as ocorrências 87 e 83 e o
+                             tipo de baixa CANCELADO e LIQU OCOR. 
+                """ )
+                st.image(
+                        "img/Comercial_Geral_Visão_Geral_PF_FiltroOco.PNG",
+                            caption="dim_Ocorrencia",
+                            use_container_width=True
+                            )
+                
+                st.markdown("""Observação na modelagem do painel há obrigatoriedade da dim_Ocorrência 
+                            já esteja modelada com seguintes colunas: 
+                """ )
 
-        st.image(
-                "img/Comercial_Geral_Visão_Geral_PF.PNG",
-                    caption="Tabela de exportação.",
-                    use_container_width=True
-                     )
+                st.table({
+                       "Coluna": [
+                            "cod_Ativo",
+                            "cod_Ocorrencia",
+                            "cod_Processo",
+                            "cod_Tipo",
+                            "id_Ocorrencia",
+                            "nom_Empresa",
+                            "nom_Ocorrencia"
+                        ],
 
-        st.table({
-            "Fonte": ["tabela_exemplo"],
-            "Tipo": ["Tabela PostgreSQL"],
-            "Descrição": ["Descrever o uso dessa tabela"]
-        })
+                        "O que significa": [
+                            "Identifica se a ocorrência está ativa",
+                            "Código da ocorrência",
+                            "Código do processo relacionado",
+                            "Código do tipo da ocorrência",
+                            "Identificador único da ocorrência",
+                            "Nome do dominio que advém do SSW",
+                            "Nome/descrição da ocorrência"
+                        ],
+                })
 
-        st.markdown("""
-                    <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
+                        
+
+                
+                st.markdown("""Tabela de Exportação da Projeção Filial:          
+                """ )
+
+                
+
+                ##st.table({
+                    ##"Fonte": ["tabela_exemplo"],
+                    ##"Tipo": ["Tabela PostgreSQL"],
+                    ##"Descrição": ["Descrever o uso dessa tabela"]
+                
+
+                st.markdown("""
+                            <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
+                
+
 
     with abas[2]:
         st.header("⚙️ Regras de Negócio")
@@ -319,22 +370,22 @@ Um ponto importante que o filtro de unidade está em relação a Unidade que se 
 
         with st.expander("Nome da medida DAX"):
             st.code("""
-Medida =
-CALCULATE(
-    COUNTROWS(tabela),
-    tabela[coluna] = "valor"
-)
-""", language="DAX")
+                Medida =
+                CALCULATE(
+                    COUNTROWS(tabela),
+                    tabela[coluna] = "valor"
+                )
+                """, language="DAX")
 
     with abas[4]:
         st.header("🧾 Consultas SQL")
 
         with st.expander("Consulta principal"):
             st.code("""
-SELECT *
-FROM public.tabela_exemplo
-LIMIT 100;
-""", language="sql")
+                    SELECT *
+                    FROM public.tabela_exemplo
+                    LIMIT 100;
+                    """, language="sql")
 
     with abas[5]:
         st.header("🖼️ Imagens do BI")
