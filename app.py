@@ -4,7 +4,8 @@ from pages_bi import (
     bi_Acompanhamento_Comercial,
     bi_Analise_dfsa,
     modelo,
-    analise_churn
+    analise_churn,
+    Descarga,
     )
 
 st.set_page_config(
@@ -30,7 +31,7 @@ menu = st.sidebar.radio(
         "Cotação",
         "Custo de Transferência",
         "Demonstrativo Coleta e Entrega",
-        "Descarga",     
+        "Descarga",
         "DRE", 
         "DRE Filiais",
         "DRE PPR",
@@ -55,6 +56,9 @@ if menu == "Comercial Geral":
 
 elif menu == "Analise Churn": 
     analise_churn.render() 
+
+elif menu == "Descarga": 
+     Descarga.render() 
     
 
 elif menu == "Análise DFSA": st.write("Em construção...")
