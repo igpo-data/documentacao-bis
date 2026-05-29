@@ -6,6 +6,7 @@ from pages_bi import (
     modelo,
     analise_churn,
     Descarga,
+    Performance_Geral
     )
 
 st.set_page_config(
@@ -54,11 +55,14 @@ menu = st.sidebar.radio(
 if menu == "Comercial Geral":
     bi_Comercial_Geral.render()
 
-elif menu == "Analise Churn": 
+elif menu == "🟢Analise Churn": 
     analise_churn.render() 
 
 elif menu == "Descarga": 
      Descarga.render() 
+
+elif menu == "Performance Geral": 
+     Performance_Geral.render() 
     
 
 elif menu == "Análise DFSA": st.write("Em construção...")
