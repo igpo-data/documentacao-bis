@@ -410,10 +410,10 @@ def render():
             col1, col2 = st.columns(2)
 
             with col1:
-                        st.image("img/Performance_Unidade _Autorizacao.png", caption="Tela filtrada pelo período de Autorização", use_container_width=True)
+                        st.image("img/Performance_Unidade _Autorizacao.PNG", caption="Tela filtrada pelo período de Autorização", use_container_width=True)
 
             with col2:
-                    st.image("img/Performance_Unidade_Previsao.png", caption="Tela Filtrada pelo período de Previsão de Entrega ", use_container_width=True)
+                    st.image("img/Performance_Unidade_Previsao.PNG", caption="Tela Filtrada pelo período de Previsão de Entrega ", use_container_width=True)
                     
             
 
@@ -425,7 +425,7 @@ def render():
                provenientes da operação 930, permitindo identificar situações em que o andamento da entrega depende de ações ou tratativas do cliente. As informações também são distribuídas por Cliente Pagador e Unidade de Destino, 
              da concentração de pendências e dos impactos no cumprimento dos prazos de entrega em cada unidade e carteira de clientes.
             """ )
-            st.image("img/Performance_Unidade_GF.png", caption="Gráfico de distribuição BI Performance Unidades.", use_container_width=True)
+            st.image("img/Performance_Unidade_GF.PNG", caption="Gráfico de distribuição BI Performance Unidades.", use_container_width=True)
             st.markdown("""
                     <h5>Modelagem de Dados</h5>""", unsafe_allow_html=True)
 
