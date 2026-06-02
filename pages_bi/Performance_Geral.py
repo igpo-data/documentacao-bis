@@ -67,7 +67,7 @@ def render():
             return base64.b64encode(img_bytes).decode()
 
         def render_mapa_interativo():
-            imagem_principal = img_to_base64("img/Performance_Geral-pg.PNG")
+            imagem_principal = img_to_base64("img/Performance_Geral-pg.jpg")
 
                         # Troque essas imagens pelas imagens de detalhe de cada card
             imagens = {
