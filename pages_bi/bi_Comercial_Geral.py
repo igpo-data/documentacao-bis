@@ -263,7 +263,7 @@ def render():
                                 }
                             });
                             </script>
-                            """, height=650, scrolling=False)
+                            """, height=600, scrolling=False)
 
         
 ########------------Visão Geral ------------------########
