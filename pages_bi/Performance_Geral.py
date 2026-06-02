@@ -67,27 +67,27 @@ def render():
             return base64.b64encode(img_bytes).decode()
 
         def render_mapa_interativo():
-            imagem_principal = img_to_base64("img/Performance_Geral-pg.png")
+            imagem_principal = img_to_base64("img/Performance_Geral-pg.PNG")
 
                         # Troque essas imagens pelas imagens de detalhe de cada card
             imagens = {
-                                            "card_1": img_to_base64("img/Performance_Geral_Entregue.png"),
-                                            "card_2": img_to_base64("img/Performance_Geral_Fora_Prazo_Cliente.png"),
-                                            "card_3": img_to_base64("img/Performance_Geral_Fora_Prazo_Trans.png"),
-                                            "card_4": img_to_base64("img/Performance_Geral_Previstos_Fora_Prazo.png"),
-                                            "card_5": img_to_base64("img/Performance_Geral_Atrasados_3.png"),
-                                            "card_6": img_to_base64("img/Performance_Geral_Atrasados_5.png"),
-                                            "card_7": img_to_base64("img/Performance_Geral_Atrasados_8.png"),
-                                            "card_8": img_to_base64("img/Performance_Geral_Atrasados_15.png"),
-                                            "card_9": img_to_base64("img/Performance_Geral_Atrasados_30.png"),
-                                            "card_10": img_to_base64("img/Performance_Geral_Atrasados_30+.png"),
-                                            "card_11": img_to_base64("img/Performance_Geral_Previstos_Prazo.png"),
-                                            "card_12": img_to_base64("img/Performance_Geral_Previstos_Hoje.png"),
-                                            "card_13": img_to_base64("img/Performance_Geral_Previstos_d+1.png"),
-                                            "card_14": img_to_base64("img/Performance_Geral_Previstos_d+2.png"),
-                                            "card_15": img_to_base64("img/Performance_Geral_Previstos_d+3.png"),
-                                            "card_16": img_to_base64("img/Performance_Geral_Previstos_d+4.png"),
-                                            "card_17": img_to_base64("img/Performance_Geral_Previstos_d5+.png"),
+                                            "card_1": img_to_base64("img/Performance_Geral_Entregue.PNG"),
+                                            "card_2": img_to_base64("img/Performance_Geral_Fora_Prazo_Cliente.PNG"),
+                                            "card_3": img_to_base64("img/Performance_Geral_Fora_Prazo_Trans.PNG"),
+                                            "card_4": img_to_base64("img/Performance_Geral_Previstos_Fora_Prazo.PNG"),
+                                            "card_5": img_to_base64("img/Performance_Geral_Atrasados_3.PNG"),
+                                            "card_6": img_to_base64("img/Performance_Geral_Atrasados_5.PNG"),
+                                            "card_7": img_to_base64("img/Performance_Geral_Atrasados_8.PNG"),
+                                            "card_8": img_to_base64("img/Performance_Geral_Atrasados_15.PNG"),
+                                            "card_9": img_to_base64("img/Performance_Geral_Atrasados_30.PNG"),
+                                            "card_10": img_to_base64("img/Performance_Geral_Atrasados_30+.PNG"),
+                                            "card_11": img_to_base64("img/Performance_Geral_Previstos_Prazo.PNG"),
+                                            "card_12": img_to_base64("img/Performance_Geral_Previstos_Hoje.PNG"),
+                                            "card_13": img_to_base64("img/Performance_Geral_Previstos_d+1.PNG"),
+                                            "card_14": img_to_base64("img/Performance_Geral_Previstos_d+2.PNG"),
+                                            "card_15": img_to_base64("img/Performance_Geral_Previstos_d+3.PNG"),
+                                            "card_16": img_to_base64("img/Performance_Geral_Previstos_d+4.PNG"),
+                                            "card_17": img_to_base64("img/Performance_Geral_Previstos_d5+.PNG"),
                                             }
             html = f"""
                     <style>
