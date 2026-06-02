@@ -19,7 +19,7 @@ def render():
     with abas[0]:
     
         st.image(
-                "img/Analise Churn.jpg",
+                "img/Analise_Churn.jpg",
                     caption="Tela da Analise Churn",
                     use_container_width=True
                      )
