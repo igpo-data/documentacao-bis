@@ -51,7 +51,7 @@ def render():
         col1, col2 = st.columns(2)
 
         with col1:
-                st.image("img/Performance_Geral_Autorizacao.png", caption="Tela filtrada pelo período de Autorização", use_container_width=True)
+                st.image("img/Performance_Geral_Autorizacao.PNG", caption="Tela filtrada pelo período de Autorização", use_container_width=True)
 
         with col2:
             st.image("img/Performance_Geral_Previsao_Entrega.png", caption="Tela Filtrada pelo período de Previsão de Entrega ", use_container_width=True)
