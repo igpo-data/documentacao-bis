@@ -55,7 +55,7 @@ menu = st.sidebar.radio(
 if menu == "Comercial Geral":
     bi_Comercial_Geral.render()
 
-elif menu == "🟢Analise Churn": 
+elif menu == "Analise Churn": 
     analise_churn.render() 
 
 elif menu == "Descarga": 
