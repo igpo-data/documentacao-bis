@@ -115,6 +115,28 @@ def render():
             <div class="painel">
                 <img src="data:image/png;base64,{imagem}">
 
+                <!-- FILTROS  -->
+
+                <div class="hotspot" onclick="abrirModal('Cliente Ecommerce', 'Filtro usado para separar clientes que são ou não são ecommerce. Permite analisar apenas operações ecommerce ou comparar com clientes não ecommerce.')" style="left:0.3%; top:8.8%; width:12.3%; height:8.4%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('UF/Destino', 'Filtro usado para selecionar a unidade federativa ou destino da entrega. Ajuda a analisar a performance por região de destino.')" style="left:13.7%; top:9.2%; width:11.4%; height:7.8%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Cliente', 'Filtro usado para selecionar um cliente específico e visualizar os indicadores apenas daquele cliente.')" style="left:26.2%; top:9.2%; width:13.6%; height:7.8%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Situação Entrega', 'Filtro usado para separar entregas conforme a situação operacional, como em rota, atrasadas, vencendo hoje ou entregas previstas.')" style="left:41.3%; top:9.2%; width:14.8%; height:7.8%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Status Pendentes', 'Filtro usado para analisar CT-e pendentes conforme o status de prazo, permitindo focar no que está no prazo, fora do prazo ou próximo do vencimento.')" style="left:57.2%; top:9.2%; width:12.9%; height:7.8%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Última Ocorrência', 'Filtro usado para selecionar o tipo da última ocorrência registrada no CT-e. Ajuda a entender o motivo operacional mais recente da entrega.')" style="left:70.9%; top:9.2%; width:13.7%; height:7.8%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('CTRC', 'Filtro usado para pesquisar um CTRC específico e consultar a situação individual da entrega.')" style="left:85.7%; top:9.2%; width:13%; height:7.8%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Período de Previsão de Entrega', 'Filtro de datas usado para definir o intervalo de previsão de entrega analisado no painel.')" style="left:38.5%; top:0.8%; width:15.3%; height:6%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Período de Autorização', 'Botão usado para alternar ou aplicar análise pelo período de autorização, mudando a lógica temporal do painel.')" style="left:55.9%; top:2.8%; width:17%; height:4.5%;"></div>
+
+                <div class="hotspot" onclick="abrirModal('Limpar Filtros', 'Botão usado para remover os filtros aplicados e retornar o painel para a visão padrão.')" style="left:85.8%; top:1.5%; width:7.5%; height:5.2%;"></div>
+
                 <!-- CARDS SUPERIORES -->
                 <div class="hotspot" onclick="abrirModal('Rota de Entrega', 'Mostra a quantidade de CT-e que estão em rota de entrega no período selecionado.')" style="left:13%; top:17%; width:14%; height:8%;"></div>
 
