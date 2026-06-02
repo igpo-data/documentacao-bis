@@ -54,7 +54,7 @@ def render():
                 st.image("img/Performance_Geral_Autorizacao.PNG", caption="Tela filtrada pelo período de Autorização", use_container_width=True)
 
         with col2:
-            st.image("img/Performance_Geral_Previsao_Entrega.png", caption="Tela Filtrada pelo período de Previsão de Entrega ", use_container_width=True)
+            st.image("img/Performance_Geral_Previsao_Entrega.PNG", caption="Tela Filtrada pelo período de Previsão de Entrega ", use_container_width=True)
    
         ##st.image("img/Performance_Geral-pg.jpg", caption="Sistema de Botões do Painel", use_container_width=True)
     
