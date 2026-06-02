@@ -147,8 +147,10 @@ def render():
 
                 <div class="hotspot" style="left:38.5%; top:0.8%; width:15.3%; height:6%;">
                     <div class="tooltip">
-                        <h3>Período de Previsão</h3>
-                        <p>Define o intervalo de previsão de entrega analisado no painel.</p>
+                        <h3>Filtro de Previsão de Entrega</h3>
+                        <p>
+                        <code>dim_PeriodoPrevisãoEntrega(data)</code>
+                        </p>
                     </div>
                 </div>
 
