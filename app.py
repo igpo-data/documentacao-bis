@@ -6,7 +6,8 @@ from pages_bi import (
     modelo,
     analise_churn,
     Descarga,
-    Performance_Geral
+    Performance_Geral,
+    Ecommerce
     )
 
 st.set_page_config(
@@ -72,3 +73,6 @@ elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
 
 elif menu == "modelo":
       modelo.render()   
+
+elif menu == "E-commerce":
+      Ecommerce.render()   
