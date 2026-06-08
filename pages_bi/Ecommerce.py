@@ -9,7 +9,8 @@ def render():
     st.title("E-commerce")
 
     st.info("""
-     BI que tem como principal objetivo a análise dos clientes que são do NCE,com uma flag para aquele que também são E-Commerce. 
+     BI que tem como principal objetivo a análise dos clientes que são do NCE, com uma flag para aquele que também são E-Commerce. Lembrar
+    que todo E-commerce é NCE, porém nem todo NCE é E-commerce. 
     """)
 
     abas = st.tabs([
@@ -99,35 +100,48 @@ def render():
                 <div class="hotspot" style="left:0.3%; top:8.8%; width:12.3%; height:8.4%;">
                     <div class="tooltip">
                         <h3>Cliente Ecommerce</h3>
-                        <p>Filtro usado para separar clientes que são ou não são ecommerce.</p>
+                        <p>Filtro usado para separar clientes que são ou não são ecommerce.
+                        <code>dim_Pagador (flg_Ecommerce)</code>
+                        </p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:13.7%; top:9.2%; width:11.4%; height:7.8%;">
                     <div class="tooltip">
                         <h3>UF/Destino</h3>
-                        <p>Filtro usado para analisar a performance por região ou destino da entrega.</p>
+                        <p>Filtro usado para analisar a performance por região ou destino da entrega.
+                         <code>dim_UnidadeReceptora (nom_UF, cod_UnidadeReceptora)</code>
+                        </p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:26.2%; top:9.2%; width:13.6%; height:7.8%;">
                     <div class="tooltip">
                         <h3>Cliente</h3>
-                        <p>Permite selecionar um cliente específico e visualizar os indicadores apenas dele.</p>
+                        <p>Permite selecionar um cliente específico e visualizar os indicadores apenas dele.
+                        Modelagem: há uma lista de clientes que são participantes do núcleo de clientes especiais essa
+                        relação é configurada de maneira manual em uma planilha no sheerpoint. 
+                        <code>dim_Pagador (nom_ClienteNCE)</code>
+                        </p>
+                        </p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:41.3%; top:9.2%; width:14.8%; height:7.8%;">
                     <div class="tooltip">
                         <h3>Situação Entrega</h3>
-                        <p>Filtro para separar entregas em rota, atrasadas, vencendo hoje ou previstas.</p>
+                        <p>Filtro para separar dentroa dos CTRC'S entregues  os que estão fora e dentro do prazo.
+                        <code>fato_FreteExpedidoRecebido (nom_StatusEntrega)</code>
+                        </p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:57.2%; top:9.2%; width:12.9%; height:7.8%;">
                     <div class="tooltip">
                         <h3>Status Pendentes</h3>
-                        <p>Ajuda a analisar os CT-e pendentes conforme o status de prazo.</p>
+                        <p>Ajuda a analisar os CT-e pendente, ou seja, aqueles que ainda não estão como entregues, classificados como fora e dentro prazo.
+                        <code>fato_FreteExpedidoRecebido (nom_StatusEntregaPendente)</code>
+                        </p>
                     </div>
                 </div>
 
@@ -148,7 +162,7 @@ def render():
                 <div class="hotspot" style="left:38.5%; top:0.8%; width:15.3%; height:6%;">
                     <div class="tooltip">
                         <h3>Filtro de Previsão de Entrega</h3>
-                        <p>
+                        <p> Esse período é mesmo encontrado nos paineis de performance geral
                         <code>dim_PeriodoPrevisãoEntrega(data)</code>
                         </p>
                     </div>
@@ -157,7 +171,9 @@ def render():
                 <div class="hotspot" style="left:55.9%; top:2.8%; width:17%; height:4.5%;">
                     <div class="tooltip">
                         <h3>Período de Autorização</h3>
-                        <p>Alterna a análise temporal para o período de autorização.</p>
+                        <p>Alterna a análise temporal para o período de autorização advindo da 455. 
+                        <code>dim_PeriodoAutorização(data)</code>
+                        </p>
                     </div>
                 </div>
 
@@ -171,42 +187,47 @@ def render():
                 <div class="hotspot" style="left:13%; top:17%; width:14%; height:8%;">
                     <div class="tooltip">
                         <h3>Rota de Entrega</h3>
-                        <p>Mostra a quantidade de CT-e que estão em rota de entrega.</p>
+                        <p>Mostra a quantidade de CT-e que estão com última ocorrência 1, 
+                        um ponto importante é que o botão é sobre a figura. 
+                        <code>dim_Ocorencia (cod_Ocorrencia, nom_Ocorrencia)</code>
+                        
+                        </p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:28%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Atrasados</h3>
-                        <p>Mostra a quantidade de entregas que estão fora do prazo previsto.</p>
+                        <p>CTRC’s em que a data de previsão de entrega é menor que hoje.</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:42%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencendo Hoje</h3>
-                        <p>Mostra os CT-e cuja previsão de entrega vence no dia atual.</p>
+                        <p>CTRC’ s em que a data de previsão de entrega é igual a hoje. </p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:56%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencem Amanhã</h3>
-                        <p>Mostra os CT-e com previsão de entrega para o próximo dia.</p>
+                        <p>CTRC’ s em que a data de previsão de entrega é D+1.</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:70%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencem em 2 Dias</h3>
-                        <p>Mostra os CT-e que vencem em até dois dias.</p>
+                        <p>CTRC’ s em que a data de previsão de entrega é D+2.
+</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:84%; top:17%; width:15%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencem essa Semana</h3>
-                        <p>Mostra o total de CT-e que vencem dentro da semana atual.</p>
+                        <p>Vencem essa semana: CTRC’ s em que a data de previsão de entrega é D+7.</p>
                     </div>
                 </div>
 
