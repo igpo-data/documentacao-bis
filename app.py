@@ -7,7 +7,8 @@ from pages_bi import (
     analise_churn,
     Descarga,
     Performance_Geral,
-    Ecommerce
+    Ecommerce,
+    cotacao
     )
 
 st.set_page_config(
@@ -72,7 +73,10 @@ elif menu == "Análise DFSA": st.write("Em construção...")
 elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
 
 elif menu == "modelo":
-      modelo.render()   
+    modelo.render()   
 
 elif menu == "E-commerce":
     Ecommerce.render()   
+
+elif menu == "Cotação":
+    cotacao.render()   
