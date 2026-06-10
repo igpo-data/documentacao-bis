@@ -4,210 +4,108 @@ import streamlit.components.v1 as components
 
 
 def render():
-    st.title("Modelo")
+    st.title("Emissões Antecipadas")
 
     st.info("""
-    Aqui coloca qual o objeto do BI 
+    Este BI tem pos finalidade o calculo dados aos motorista. 
+            \n 
+            Base: 915 e 206. 
     """)
 
     abas = st.tabs([
-        "aba 1 ",
-        "aba 2 ",
-        "aba 3 "
+        "Modo de Extração",
+        "BI"
     ])
-
-    with abas[0]:
-        st.header("Titulo Grandão")
-
-        st.markdown("""
-                    <h4>Visual:</h4>""", unsafe_allow_html=True)
-
-#########_____________ Coloca alguma  imagam (Conter img)
-       ## st.image(
-        ##"img/Acomp_Geral_Principal.PNG",
-        ##caption="Tela principal do BI",
-        ##use_container_width=True
-        ##)
-        
-        st.markdown("""
-      colocar um texto 
-                    \n 
-                    pular a linha   """)
-        
-        #--------DEIXA AQUI QUANDO EU PRECISA:: colunas ::::::
-        #col1, col2, col3 = st.columns(3)
-        #col1.metric("Indicador 1", "0")
-        #col2.metric("Indicador 2", "0%")
-        #col3.metric("Indicador 3", "R$ 0,00")
-
     
-        
+    with abas[0]:
         st.markdown("""
-            texto **texto** texto texto texto, 
-            texto <span style="background-color:#FFF3B0; padding:2px 6px; border-radius:5px;">
-            texto colorido  texto colorido
-            </span>, <span style="background-color:#FFF3B0; padding:2px 6px; border-radius:5px;">
-             texto colorido
-            </span>,<span style="background-color:#FFF3B0; padding:2px 6px; border-radius:5px;">
-             texto colorido</span>.
-            """, unsafe_allow_html=True)
+                            <h5>Modo de extração</h5>""", unsafe_allow_html=True)
         
+        col1, col2 = st.columns(2)
 
+        with col1:
+                st.image("img/Tela206.PNG", caption="Tela de Extração da 206", use_container_width=True)
+
+        with col2:
+            st.image("img/Tela915.PNG", caption="Tela de Extração da 915 ", use_container_width=True)
         
+        st.markdown("""**Obs**: A tela de extração da 915 muda momentaneamente, sendo o formato de tela como o da imagem, contendo a opção tipo de dados: CTRC E Fatura. 
+                            """)
 
+        st.markdown("""
+                            <h5>Dados Brutos.</h5>""", unsafe_allow_html=True)
+        
        ########### tabela de exemplo 
         tabela = pd.DataFrame({
 
-                    " Titulo Coluna 1  ": [
-                    "linha",
-                    "linha",
-                    "linha"
+                    " Nome ": [
+                    "NF-E",
+                    "CHAVE DANFE",
+                    "XML",
+                    "NR1/NR2",
+                    "CTR"
                 ],
 
-                "Titulo Coluna 2": [
-                    "linha",
-                    "linha",
-                    "linha"    
+                "Descrição": [
+                    "Número da Nota Fiscal.",
+                    "Chave pode ser copiada com Ctrl-V e colada com Ctrl-C na opção 004 para gerar o CT-e correspondente.",
+                    "O S indica que o XML da DANFE está disponível, o que facilita a geração do CT-e.",
+                    "Etiquetas sequenciais dos volumes coletados utilizadas para descarregamento com SSWBar.",
+                    "S indica que no momento da geração do relatório o pré-CTRC já se encontra emitido."
                 ],
 
-                "Titulo Coluna 3": [
-                    "linha",
-                    "linha",
-                    "linha"]})
+            })
 
         st.dataframe(
                     tabela,
                     use_container_width=True,
                     hide_index=True
                 )
-
-        
         components.html("""
-                <div class="mermaid">
-                erDiagram
-                        
-                    tabela 1 {
-                        numeric coluna 1 
-                        int coluna 2
-                    }
+        <div class="mermaid">
+        erDiagram
 
-                      tabela 2 {
-                        numeric coluna 1 
-                        int coluna 2
-                    }
+            206{
+                int id PK
+                string Veiculo
+                numeric Motorista
+                time Hora
+                int Coleta
+                string CNPJ Remetente
+                text Remetente
+                int NF-E 
+                string Chave Danfe
+                text XML 
+                text NR1
+                text NR2
+                text CTR
+                
+            }
 
-                      tabela 3 {
-                        numeric coluna 1 
-                        int coluna 2
-                    }
+            915 {
+                int id PK
+                string coluna_1
+                numeric coluna_2
+                date coluna_3
+            }
 
-                    
-                        
-                </div>
+            %% Relacionamento futuro
+            %% TABELA_1 ||--o{ TABELA_2 : chave_a_definir
 
-                <script type="module">
-                import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                mermaid.initialize({ startOnLoad: true });
-                </script>
-                """, height=800)
+        </div>
 
+        <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
-        
-########------------Visão Geral ------------------########
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+        </script>
+        """, height=500)
     with abas[1]:
-        st.markdown("""
-                    <h4>Visual:</h4>""", unsafe_allow_html=True)
-        
-        ##### Depois adiciona  diagrama #####
-        ##components.html("""
-               ##<div class="mermaid">
-                ##erDiagram
-
-                   
-                    
-
-                    ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
-                    ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
-
-                    ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
-                    ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
-                    ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
-
-                ##</div>
-
-                ##<script type="module">
-                ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                ##mermaid.initialize({ startOnLoad: true });
-                ##</script>
-                ##""", height=800)
-
-        st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele Mês, dessa forma, o 
-                    mês de abril há 21 dias úteis tirando os feriados e contabilizando o sabado como 0,25 para fins 
-                    de faturamento. 
-        """ )
-
-        st.image(
-                "img/Comercial_Geral_Visão_Geral_PF.PNG",
-                    caption="Tabela de exportação.",
-                    use_container_width=True
-                     )
-
-        st.table({
-            "Fonte": ["tabela_exemplo"],
-            "Tipo": ["Tabela PostgreSQL"],
-            "Descrição": ["Descrever o uso dessa tabela"]
-        })
+        #st.header("Titulo Grandão")
 
         st.markdown("""
-                    <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
-
-    with abas[2]:
-        st.header("⚙️ Regras de Negócio")
-
-        with st.expander("Regra 1"):
-            st.write("""
-            Explique a regra aqui.
-            """)
-
-        with st.expander("Regra 2"):
-            st.write("""
-            Explique outra regra aqui.
-            """)
-
-    with abas[3]:
-        st.header("📐 Medidas DAX")
-
-        with st.expander("Nome da medida DAX"):
-            st.code("""
-Medida =
-CALCULATE(
-    COUNTROWS(tabela),
-    tabela[coluna] = "valor"
-)
-""", language="DAX")
-
-    with abas[4]:
-        st.header("🧾 Consultas SQL")
-
-        with st.expander("Consulta principal"):
-            st.code("""
-SELECT *
-FROM public.tabela_exemplo
-LIMIT 100;
-""", language="sql")
-
-    with abas[5]:
-        st.header("🖼️ Imagens do BI")
-
-        st.warning("Coloque o print do BI na pasta img/ e altere o caminho abaixo.")
-
-        # exemplo:
-        # st.image("img/bi_descarga.png", caption="Tela principal do BI")
-
-    with abas[6]:
-        st.header("📝 Observações")
-
-        st.text_area(
-            "Anotações",
-            "Pendências, melhorias futuras, dúvidas ou pontos de atenção."
-        )
+                            <h4>Visual:</h4>""", unsafe_allow_html=True)
