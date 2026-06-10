@@ -84,3 +84,5 @@ elif menu == "Cotação":   st.write("Em construção...")
    
 elif menu == "Emissões Antecipadas":
     EmissoesAntecipadas.render() 
+
+elif menu == "Torre de Controle":   st.write("Em construção...")

@@ -24,10 +24,10 @@ def render():
         col1, col2 = st.columns(2)
 
         with col1:
-                st.image("img/Tela206.PNG", caption="Tela de Extração da 206", use_container_width=True)
+                st.image("img/Tela206.jpg", caption="Tela de Extração da 206", use_container_width=True)
 
         with col2:
-            st.image("img/Tela915.PNG", caption="Tela de Extração da 915 ", use_container_width=True)
+            st.image("img/Tela915.jpg", caption="Tela de Extração da 915 ", use_container_width=True)
         
         st.markdown("""**Obs**: A tela de extração da 915 muda momentaneamente, sendo o formato de tela como o da imagem, contendo a opção tipo de dados: CTRC E Fatura. 
                             """)
