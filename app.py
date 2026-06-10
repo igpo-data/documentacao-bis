@@ -8,7 +8,8 @@ from pages_bi import (
     Descarga,
     Performance_Geral,
     Ecommerce,
-    cotacao
+    cotacao,
+    EmissoesAntecipadas
     )
 
 st.set_page_config(
@@ -50,7 +51,8 @@ menu = st.sidebar.radio(
         "SSW Mobile",
         "Torre de Controle",
         "Analise Churn",
-        "modelo"
+        "modelo",
+        "Emissões Antecipadas"
         ]
 )
 
@@ -78,5 +80,7 @@ elif menu == "modelo":
 elif menu == "E-commerce":
     Ecommerce.render()   
 
-elif menu == "Cotação":
-    cotacao.render()   
+elif menu == "Cotação":   st.write("Em construção...")
+   
+elif menu == "Emissões Antecipadas":
+    EmissoesAntecipadas.render() 

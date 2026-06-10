@@ -11,46 +11,64 @@ def render():
     """)
 
     abas = st.tabs([
-        "aba 1 ",
-        "aba 2 ",
-        "aba 3 "
+        "Cotação",
+        "Cotação Origem Destino",
+        "Ranking por Cotação",
+        "Detalhamento",
+        "Visão Comercial"
     ])
 
     with abas[0]:
-        st.header("Titulo Grandão")
-
-        st.markdown("""
-                    <h4>Visual:</h4>""", unsafe_allow_html=True)
-
-#########_____________ Coloca alguma  imagam (Conter img)
-       ## st.image(
-        ##"img/Acomp_Geral_Principal.PNG",
-        ##caption="Tela principal do BI",
-        ##use_container_width=True
-        ##)
-        
-        st.markdown("""
-      colocar um texto 
-                    \n 
-                    pular a linha   """)
+    
+    
         components.html("""
                     <div class="mermaid">
                     erDiagram
 
                         SSW_OP002 {
-                            bigint COTACAO PK
-                            timestamp DATA_HORA_INCLUSAO
-                            date VALIDADE
-                            date DATA_EMISSAO_CTRC
-                            text SITUACAO
-                            text CTRC
-                            numeric VALOR_NF
-                            numeric PESO
-                            numeric PESO_CALCULO
-                            numeric PROPOSTA_INICIAL
-                            numeric PROPOSTA_ATUAL
-                            text CNPJ_PAGADOR
-                            text CNPJ_DESTINATARIO
+                            numeric COTACAO pk ,
+                            text UNIDADE INCLUSAO,
+                            text USUARIO INCLUSAO,
+                            numeric CNPJ PAGADOR,
+                            text NOME PAGADOR,
+                            text ABC ,
+                            text VENDEDOR,
+                            text ORIGEM,
+                            character varying(4) PRACA COLETA,
+                            character varying(4) PRACA COMERCIAL,
+                            text DESTINO,
+                            numeric CNPJ DESTINATARIO,
+                            text NOME DESTINATARIO,
+                            text ED,
+                            "TIPO FRETE" character varying(3) NULL,
+                            "MERCADORIA" numeric NULL,
+                            "VALOR NF" numeric NULL,
+                            "QTD VOLUMES" numeric NULL,
+                            "QTD PARES" numeric NULL,
+                            "PESO" numeric NULL,
+                            "CUBAGEM" numeric NULL,
+                            "PESO CALCULO" numeric NULL,
+                            "FRETE NTC" numeric NULL,
+                            "PROPOSTA INICIAL" numeric NULL,
+                            "PROPOSTA ATUAL" numeric NULL,
+                            "DESC NTC" numeric NULL,
+                            "RC" numeric NULL,
+                            "DESC INICIAL" numeric NULL,
+                            "TABELA DE CALCULO" text NULL,
+                            "DATA HORA INCLUSAO" timestamp without time zone NULL,
+                            "VALIDADE" timestamp without time zone NULL,
+                            "SITUACAO" text NULL,
+                            "CTRC" text NULL,
+                            "DATA EMISSAO CTRC" timestamp without time zone NULL,
+                            "FRETE CTRC" numeric NULL,
+                            "RELATORIO COMISSAO" numeric NULL,
+                            "UNIDADE RESPONSAVEL" text NULL,
+                            "USUARIO ALTERACAO" text NULL,
+                            "Data Atualização" timestamp without time zone NULL,
+                            "CONTATO" text NULL,
+                            "AUTORIZADO" text NULL
+
+
                         }
 
                         DIM_002 {
@@ -139,181 +157,91 @@ def render():
                     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
                     mermaid.initialize({ startOnLoad: true });
                     </script>
-                    """, height=900)
-        #--------DEIXA AQUI QUANDO EU PRECISA:: colunas ::::::
-        #col1, col2, col3 = st.columns(3)
-        #col1.metric("Indicador 1", "0")
-        #col2.metric("Indicador 2", "0%")
-        #col3.metric("Indicador 3", "R$ 0,00")
-
-    
-        
-        st.markdown("""
-            texto **texto** texto texto texto, 
-            texto <span style="background-color:#FFF3B0; padding:2px 6px; border-radius:5px;">
-            texto colorido  texto colorido
-            </span>, <span style="background-color:#FFF3B0; padding:2px 6px; border-radius:5px;">
-             texto colorido
-            </span>,<span style="background-color:#FFF3B0; padding:2px 6px; border-radius:5px;">
-             texto colorido</span>.
-            """, unsafe_allow_html=True)
-        
-
-        
-
-       ########### tabela de exemplo 
-        tabela = pd.DataFrame({
-
-                    " Titulo Coluna 1  ": [
-                    "linha",
-                    "linha",
-                    "linha"
-                ],
-
-                "Titulo Coluna 2": [
-                    "linha",
-                    "linha",
-                    "linha"    
-                ],
-
-                "Titulo Coluna 3": [
-                    "linha",
-                    "linha",
-                    "linha"]})
-
-        st.dataframe(
-                    tabela,
-                    use_container_width=True,
-                    hide_index=True
-                )
-
-        
-        components.html("""
-                <div class="mermaid">
-                erDiagram
-                        
-                    tabela 1 {
-                        numeric coluna 1 
-                        int coluna 2
-                    }
-
-                      tabela 2 {
-                        numeric coluna 1 
-                        int coluna 2
-                    }
-
-                      tabela 3 {
-                        numeric coluna 1 
-                        int coluna 2
-                    }
-
-                    
-                        
-                </div>
-
-                <script type="module">
-                import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                mermaid.initialize({ startOnLoad: true });
-                </script>
-                """, height=800)
+                    """, height=2500)
+      
 
 
-        
+
+      
 ########------------Visão Geral ------------------########
-    with abas[1]:
-        st.markdown("""
-                    <h4>Visual:</h4>""", unsafe_allow_html=True)
-        
-        ##### Depois adiciona  diagrama #####
-        ##components.html("""
-               ##<div class="mermaid">
-                ##erDiagram
+        with abas[1]:
+            st.markdown("""
+                        <h4>Visual:</h4>""", unsafe_allow_html=True)
+            
+            ##### Depois adiciona  diagrama #####
+            ##components.html("""
+                ##<div class="mermaid">
+                    ##erDiagram
 
-                   
                     
+                        
 
-                    ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
-                    ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
+                        ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
+                        ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
 
-                    ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
-                    ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
-                    ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
+                        ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
+                        ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
+                        ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
 
-                ##</div>
+                    ##</div>
 
-                ##<script type="module">
-                ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                ##mermaid.initialize({ startOnLoad: true });
-                ##</script>
-                ##""", height=800)
+                    ##<script type="module">
+                    ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+                    ##mermaid.initialize({ startOnLoad: true });
+                    ##</script>
+                    ##""", height=800)
 
-        st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele Mês, dessa forma, o 
-                    mês de abril há 21 dias úteis tirando os feriados e contabilizando o sabado como 0,25 para fins 
-                    de faturamento. 
-        """ )
+            st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele Mês, dessa forma, o 
+                        mês de abril há 21 dias úteis tirando os feriados e contabilizando o sabado como 0,25 para fins 
+                        de faturamento. 
+            """ )
 
-        st.image(
-                "img/Comercial_Geral_Visão_Geral_PF.PNG",
-                    caption="Tabela de exportação.",
-                    use_container_width=True
-                     )
+            st.image(
+                    "img/Comercial_Geral_Visão_Geral_PF.PNG",
+                        caption="Tabela de exportação.",
+                        use_container_width=True
+                        )
 
-        st.table({
-            "Fonte": ["tabela_exemplo"],
-            "Tipo": ["Tabela PostgreSQL"],
-            "Descrição": ["Descrever o uso dessa tabela"]
-        })
+            st.table({
+                "Fonte": ["tabela_exemplo"],
+                "Tipo": ["Tabela PostgreSQL"],
+                "Descrição": ["Descrever o uso dessa tabela"]
+            })
 
-        st.markdown("""
-                    <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
+            st.markdown("""
+                        <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
 
-    with abas[2]:
-        st.header("⚙️ Regras de Negócio")
+        with abas[2]:
+                st.header("⚙️ Regras de Negócio")
 
-        with st.expander("Regra 1"):
-            st.write("""
-            Explique a regra aqui.
-            """)
+                with st.expander("Regra 1"):
+                    st.write("""
+                    Explique a regra aqui.
+                    """)
 
-        with st.expander("Regra 2"):
-            st.write("""
-            Explique outra regra aqui.
-            """)
+                with st.expander("Regra 2"):
+                    st.write("""
+                    Explique outra regra aqui.
+                    """)
 
-    with abas[3]:
-        st.header("📐 Medidas DAX")
+        with abas[3]:
+                    st.header("📐 Medidas DAX")
 
-        with st.expander("Nome da medida DAX"):
-            st.code("""
-Medida =
-CALCULATE(
-    COUNTROWS(tabela),
-    tabela[coluna] = "valor"
-)
-""", language="DAX")
+                    with st.expander("Nome da medida DAX"):
+                        st.code("""
+            Medida =
+            CALCULATE(
+                COUNTROWS(tabela),
+                tabela[coluna] = "valor"
+            )
+            """, language="DAX")
 
-    with abas[4]:
-        st.header("🧾 Consultas SQL")
+        with abas[4]:
+                    st.header("🧾 Consultas SQL")
 
-        with st.expander("Consulta principal"):
-            st.code("""
-SELECT *
-FROM public.tabela_exemplo
-LIMIT 100;
-""", language="sql")
-
-    with abas[5]:
-        st.header("🖼️ Imagens do BI")
-
-        st.warning("Coloque o print do BI na pasta img/ e altere o caminho abaixo.")
-
-        # exemplo:
-        # st.image("img/bi_descarga.png", caption="Tela principal do BI")
-
-    with abas[6]:
-        st.header("📝 Observações")
-
-        st.text_area(
-            "Anotações",
-            "Pendências, melhorias futuras, dúvidas ou pontos de atenção."
-        )
+                    with st.expander("Consulta principal"):
+                        st.code("""
+            SELECT *
+            FROM public.tabela_exemplo
+            LIMIT 100;
+            """, language="sql")
