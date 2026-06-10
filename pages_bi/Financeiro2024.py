@@ -29,5 +29,6 @@ def render():
             **Meses Anteriores**: Para documentos emitidos em meses retroativos (com carga histórica de até 90 dias), a rotina de atualização é executada aos finais de semana. 
             Dessa forma, as informações pendentes serão processadas no final de semana e atualizadas na segunda-feira.  
                      """)
-        
+        st.markdown("""
+                    <h5>há pedidos de melhoria deste: atividade 224823 </h5>""", unsafe_allow_html=True)
   
