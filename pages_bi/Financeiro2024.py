@@ -25,8 +25,8 @@ def render():
         st.markdown("""
                     <h5>Atualização dos Dados</h5>""", unsafe_allow_html=True)
         st.markdown(""" A rotina de processamento de dados ocorre da seguinte forma: 
-            **Mês Vigente**: A atualização de faturas dos documentos emitidos dentro do mês atual é realizada diariamente.     
-            **Meses Anteriores**: Para documentos emitidos em meses retroativos (com carga histórica de até 90 dias), a rotina de atualização é executada aos finais de semana. 
+            **Mês Vigente**: A atualização de faturas dos documentos emitidos dentro do mês atual é realizada diariamente.\n 
+            **Meses Anteriores**: Para documentos emitidos em meses retroativos (com carga histórica de até 90 dias), a rotina de atualização é executada aos finais de semana.\n 
             Dessa forma, as informações pendentes serão processadas no final de semana e atualizadas na segunda-feira.  
                      """)
         st.markdown("""
