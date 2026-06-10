@@ -27,7 +27,6 @@ menu = st.sidebar.radio(
         "Acompanhamento Comercial",
         "Análise DFSA",
         "Anomalias e Cancelamentos",
-        "Comercial",
         "Comprovante de Entrega", 
         "Contas a Pagar",
         "Contas a Receber",  
@@ -87,5 +86,7 @@ elif menu == "Faturamento":   st.write("Em construção...")
 elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
 elif menu == "Análise DFSA": st.write("Em construção...")
 elif menu == "Torre de Controle":   st.write("Em construção...")
-elif menu == "Acompanhamento Comercial":   st.write("Esse BI está dentro do Visão Geral")
+elif menu == "Acompanhamento Comercial":   st.write("Esse BI está dentro do Visão Geral em uma das páginas dele.")
+elif menu == "Comprovante de Entrega":   st.write("Em construção...")
+
    
