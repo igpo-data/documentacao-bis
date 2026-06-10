@@ -9,7 +9,8 @@ from pages_bi import (
     Performance_Geral,
     Ecommerce,
     cotacao,
-    EmissoesAntecipadas
+    EmissoesAntecipadas,
+    Financeiro2024
     )
 
 st.set_page_config(
@@ -52,8 +53,8 @@ menu = st.sidebar.radio(
         "Torre de Controle",
         "Analise Churn",
         "modelo",
-        "Emissões Antecipadas",
-        "Faturamento"
+        "Emissões Antecipadas", 
+        "Faturamento Interno"
         ]
 )
 
@@ -69,24 +70,22 @@ elif menu == "Descarga":
 elif menu == "Performance Geral": 
      Performance_Geral.render() 
     
-
-elif menu == "Análise DFSA": st.write("Em construção...")
-   
-
-elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
-
 elif menu == "modelo":
     modelo.render()   
 
 elif menu == "E-commerce":
-    Ecommerce.render()   
+    Ecommerce.render()  
 
-elif menu == "Cotação":   st.write("Em construção...")
-   
 elif menu == "Emissões Antecipadas":
     EmissoesAntecipadas.render() 
 
-elif menu == "Torre de Controle":   st.write("Em construção...")
+elif menu == "Faturamento Interno":
+    Financeiro2024.render() 
 
-elif menu == "Faturamento":
-     Financeiro2024.render() 
+elif menu == "Cotação":   st.write("Em construção...")
+elif menu == "Faturamento":   st.write("Em construção...")
+elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
+elif menu == "Análise DFSA": st.write("Em construção...")
+elif menu == "Torre de Controle":   st.write("Em construção...")
+elif menu == "Acompanhamento Comercial":   st.write("Esse BI está dentro do Visão Geral")
+   
