@@ -10,7 +10,8 @@ from pages_bi import (
     Ecommerce,
     cotacao,
     EmissoesAntecipadas,
-    Financeiro2024
+    Financeiro2024,
+    coleta
     )
 
 st.set_page_config(
@@ -53,7 +54,8 @@ menu = st.sidebar.radio(
         "Analise Churn",
         "modelo",
         "Emissões Antecipadas", 
-        "Faturamento Interno"
+        "Faturamento Interno",
+        "Coletas"
         ]
 )
 
@@ -80,6 +82,9 @@ elif menu == "Emissões Antecipadas":
 
 elif menu == "Faturamento Interno":
     Financeiro2024.render() 
+
+elif menu == "Coletas":
+    coleta.render() 
 
 elif menu == "Cotação":   st.write("Em construção...")
 elif menu == "Faturamento":   st.write("Em construção...")
