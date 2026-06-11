@@ -84,7 +84,7 @@ def render():
 
     st.markdown('<div class="main-title">Situação Coletas</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="subtitle">Documentação técnica e funcional do fluxo de situação de coletas Cranilog.</div>',
+        '<div class="subtitle">Documentação técnica e funcional do fluxo de situação de coletas.</div>',
         unsafe_allow_html=True
     )
 
@@ -103,7 +103,7 @@ def render():
         <div class="section-card">
             <div class="section-title">Objetivo do BI</div>
             <p>
-            O BI de Situação Coletas tem como objetivo acompanhar as coletas registradas no ambiente Cranilog,
+            O BI de Situação Coletas tem como objetivo acompanhar as coletas registradas no ambiente,
             avaliando a situação operacional, o prazo previsto de coleta, a data/hora de inclusão, a unidade emissora,
             o remetente, o pagador, o destino, os dados da carga e a classificação final do prazo.
             </p>
@@ -137,7 +137,7 @@ def render():
             st.markdown("""
             <div class="metric-box">
                 <div class="metric-title">Origem</div>
-                <div class="metric-value">Silver Delta</div>
+                <div class="metric-value">Base 103 SSW</div>
             </div>
             """, unsafe_allow_html=True)
 
