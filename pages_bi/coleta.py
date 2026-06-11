@@ -99,6 +99,179 @@ def render():
     ])
 
     with abas[0]:
+        def render_situacao_coleta_interativo():
+
+            imagem = img_to_base64("img/SituacaoColeta.jpg")
+
+            html = f"""
+            <style>
+                .painel {{
+                    position: relative;
+                    width: 100%;
+                    max-width: 1550px;
+                    margin: auto;
+                }}
+
+                .painel img {{
+                    width: 100%;
+                    border-radius: 8px;
+                }}
+
+                .hotspot {{
+                    position: absolute;
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                    transition: 0.2s;
+                }}
+
+                .hotspot:hover {{
+                    border: 3px solid #00BFFF;
+                    background: rgba(0,191,255,0.15);
+                    box-shadow: 0 0 14px rgba(0,191,255,0.8);
+                }}
+
+                .tooltip {{
+                    visibility: hidden;
+                    opacity: 0;
+                    position: absolute;
+                    z-index: 9999;
+                    width: 380px;
+                    background: white;
+                    color: #333;
+                    border-radius: 14px;
+                    padding: 16px;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.30);
+                    top: 105%;
+                    left: 0;
+                    transition: opacity 0.25s ease;
+                }}
+
+                .hotspot:hover .tooltip {{
+                    visibility: visible;
+                    opacity: 1;
+                }}
+
+                .tooltip h3 {{
+                    margin-top:0;
+                    color:#0b4f8a;
+                }}
+            </style>
+
+            <div class="painel">
+
+                <img src="data:image/png;base64,{imagem}">
+
+                <!-- COLETAS -->
+                <div class="hotspot"
+                    style="left:0.5%; top:20%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Coletas</h3>
+                        <p>
+                        Quantidade total de coletas registradas no período selecionado.
+                        Corresponde ao volume geral da operação.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- COLETADAS -->
+                <div class="hotspot"
+                    style="left:17%; top:20%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Coletadas</h3>
+                        <p>
+                        Quantidade de coletas cuja situação atual é COLETADA.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- COMANDADAS -->
+                <div class="hotspot"
+                    style="left:34%; top:20%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Comandadas</h3>
+                        <p>
+                        Coletas já encaminhadas operacionalmente para execução.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CANCELADAS -->
+                <div class="hotspot"
+                    style="left:50.5%; top:20%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Canceladas</h3>
+                        <p>
+                        Coletas canceladas antes da conclusão operacional.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CADASTRADAS -->
+                <div class="hotspot"
+                    style="left:67%; top:20%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Cadastradas</h3>
+                        <p>
+                        Coletas registradas no sistema e aguardando evolução.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- PRE CADASTRADAS -->
+                <div class="hotspot"
+                    style="left:83.5%; top:20%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Pré-Cadastradas</h3>
+                        <p>
+                        Coletas que ainda não concluíram o processo completo de cadastro.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- HOJE -->
+                <div class="hotspot"
+                    style="left:0.5%; top:36%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Hoje</h3>
+                        <p>
+                        Coletas com vencimento previsto para o dia atual.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- A VENCER -->
+                <div class="hotspot"
+                    style="left:17%; top:36%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>A Vencer</h3>
+                        <p>
+                        Coletas ainda dentro do prazo previsto.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- VENCIDAS -->
+                <div class="hotspot"
+                    style="left:34%; top:36%; width:16%; height:14%;">
+                    <div class="tooltip">
+                        <h3>Vencidas</h3>
+                        <p>
+                        Coletas cuja data prevista já foi ultrapassada.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            """
+
+            components.html(
+                html,
+                height=900,
+                scrolling=True
+            )
+
+
+
         st.markdown("""
         <div class="section-card">
             <div class="section-title">Objetivo do BI</div>
@@ -165,29 +338,134 @@ def render():
         st.markdown('<div class="section-card"><div class="section-title">Fluxo lógico do processo</div>', unsafe_allow_html=True)
 
         components.html("""
-        <div class="mermaid">
-        flowchart LR
-            A[Tabela Silver Cranilog] --> B[Delta History]
-            B --> C[Última versão válida]
-            C --> D[table_changes]
-            D --> E[Filtra insert e update_postimage]
-            E --> F[CTE cte_SituacaoColeta_load]
-            F --> G[Classifica horário SAO]
-            G --> H[Ajusta previsão de coleta]
-            H --> I[Consulta dim_PeriodoAutorizacao]
-            I --> J[Calcula próxima data útil]
-            J --> K[CTE cte_SituacaoColeta]
-            K --> L[Join com dimensões]
-            L --> M[Tabela fato de situação de coletas]
-            M --> N[Modelo semântico Power BI]
-        </div>
+                <div class="diagram-card">
+                    <div class="diagram-toolbar">
+                        <span>Arraste o diagrama para mover. Use o scroll para zoom.</span>
+                        <button id="zoomIn">Aproximar</button>
+                        <button id="zoomOut">Afastar</button>
+                        <button id="reset">Resetar</button>
+                    </div>
 
-        <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'base' });
-        </script>
-        """, height=520)
+                    <div id="diagram-wrapper">
+                        <div id="diagram-content">
+                            <pre class="mermaid">
+                flowchart TB
+                    A[Tabela Silver Cranilog] --> B[Delta History]
+                    B --> C[Última versão válida]
+                    C --> D[table_changes]
+                    D --> E[Filtra insert e update_postimage]
+                    E --> F[CTE cte_SituacaoColeta_load]
+                    F --> G[Classifica horário SAO]
+                    G --> H[Ajusta previsão de coleta]
+                    H --> I[Consulta dim_PeriodoAutorizacao]
+                    I --> J[Calcula próxima data útil]
+                    J --> K[CTE cte_SituacaoColeta]
+                    K --> L[Join com dimensões]
+                    L --> M[Tabela fato de situação de coletas]
+                    M --> N[Modelo semântico Power BI]
+                            </pre>
+                        </div>
+                    </div>
+                </div>
 
+                <style>
+                    .diagram-card {
+                        width: 100%;
+                        height: 850px;
+                        border: 1px solid #E5E7EB;
+                        border-radius: 14px;
+                        background: #FFFFFF;
+                        overflow: hidden;
+                        box-sizing: border-box;
+                    }
+
+                    .diagram-toolbar {
+                        height: 48px;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 0 14px;
+                        border-bottom: 1px solid #E5E7EB;
+                        background: #F9FAFB;
+                        font-family: Arial, sans-serif;
+                        font-size: 13px;
+                        color: #374151;
+                    }
+
+                    .diagram-toolbar button {
+                        border: 1px solid #D1D5DB;
+                        background: #FFFFFF;
+                        color: #111827;
+                        border-radius: 8px;
+                        padding: 6px 10px;
+                        cursor: pointer;
+                        font-size: 12px;
+                    }
+
+                    #diagram-wrapper {
+                        width: 100%;
+                        height: 802px;
+                        overflow: hidden;
+                        cursor: grab;
+                        background:
+                            linear-gradient(#F3F4F6 1px, transparent 1px),
+                            linear-gradient(90deg, #F3F4F6 1px, transparent 1px);
+                        background-size: 24px 24px;
+                    }
+
+                    #diagram-content {
+                        width: max-content;
+                        padding: 60px;
+                    }
+
+                    .mermaid svg {
+                        max-width: none !important;
+                        height: auto !important;
+                    }
+                </style>
+
+                <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.6.0/dist/panzoom.min.js"></script>
+
+                <script>
+                    mermaid.initialize({
+                        startOnLoad: true,
+                        theme: "base",
+                        flowchart: {
+                            useMaxWidth: false,
+                            htmlLabels: true,
+                            curve: "basis"
+                        }
+                    });
+
+                    setTimeout(function() {
+                        const elem = document.getElementById("diagram-content");
+                        const wrapper = document.getElementById("diagram-wrapper");
+
+                        const panzoom = Panzoom(elem, {
+                            maxScale: 2.5,
+                            minScale: 0.4,
+                            contain: "outside",
+                            startScale: 1
+                        });
+
+                        wrapper.addEventListener("wheel", panzoom.zoomWithWheel);
+
+                        document.getElementById("zoomIn").addEventListener("click", function() {
+                            panzoom.zoomIn();
+                        });
+
+                        document.getElementById("zoomOut").addEventListener("click", function() {
+                            panzoom.zoomOut();
+                        });
+
+                        document.getElementById("reset").addEventListener("click", function() {
+                            panzoom.reset();
+                        });
+                    }, 800);
+                </script>
+                """, height=700, scrolling=False)
+                        
         st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown("""
@@ -232,7 +510,7 @@ def render():
                 "Contador fixo igual a 1 para permitir agregação de quantidade de coletas.",
                 "Data e hora em que a coleta foi incluída.",
                 "Coluna mantida para carga incremental no modelo semântico. Não remover.",
-                "Previsão original vinda do SSW/Cranilog.",
+                "Previsão original vinda do SSW.",
                 "Previsão ajustada pela regra de calendário e horário.",
                 "Data e hora final prevista para coleta.",
                 "Data e hora em que a coleta foi efetivamente realizada.",
@@ -319,54 +597,148 @@ def render():
         st.markdown("</div>", unsafe_allow_html=True)
 
     with abas[3]:
-        st.markdown('<div class="section-card"><div class="section-title">Regras de negócio</div>', unsafe_allow_html=True)
+        st.markdown("""
+                    ### 1. Carga Incremental
 
-        with st.expander("Regra 1 — Carga incremental"):
-            st.write("""
-            O script não carrega a tabela inteira. Ele consulta o histórico Delta, identifica a última versão válida
-            e usa table_changes para capturar somente registros inseridos ou atualizados.
-            São considerados apenas os registros com _change_type igual a insert ou update_postimage.
-            """)
+                    O processo foi desenvolvido utilizando carga incremental através do recurso
+                    `table_changes` do Delta Lake. Antes da execução da carga, o script consulta o
+                    histórico da tabela da camada Silver para identificar a última versão válida
+                    processada. A partir dessa versão, são recuperadas somente as alterações
+                    ocorridas desde a última execução, reduzindo o volume de dados processados e
+                    otimizando o desempenho da atualização.
 
-        with st.expander("Regra 2 — Status de horário da unidade SAO"):
-            st.write("""
-            A unidade SAO possui uma regra específica. Se a cidade remetente estiver entre DIADEMA, BARUERI,
-            OSASCO, SAO BERNARDO DO CAMPO, GUARULHOS ou SAO PAULO, o script verifica se a inclusão ocorreu
-            até 13:00. Quando isso acontece, a coleta recebe o status SAO - Até as 13hrs. Caso contrário, recebe
-            SAO - Após as 13hrs.
-            """)
+                    O Delta Lake mantém um histórico completo das modificações realizadas nos
+                    registros, permitindo identificar quais dados foram inseridos, alterados ou
+                    removidos ao longo do tempo. Para isso, a função `table_changes` disponibiliza
+                    a coluna técnica `_change_type`, responsável por indicar o tipo de alteração
+                    realizada em cada registro.
 
-        with st.expander("Regra 3 — Demais filiais"):
-            st.write("""
-            Quando a unidade é diferente de SAO, o status de horário é classificado como Demais Filiais.
-            Essa regra separa a análise operacional de SAO das demais unidades.
-            """)
+                    Os principais valores possíveis são:
 
-        with st.expander("Regra 4 — Previsão de coleta ajustada"):
-            st.write("""
-            Quando a previsão inicial está vazia, o script usa a previsão final como base.
-            Quando a previsão inicial existe, ela é mantida como referência principal.
-            Essa regra evita perda de cálculo quando o campo inicial não vem preenchido.
-            """)
+                    | Tipo de Alteração | Descrição |
+                    |------------------|-----------|
+                    | `insert` | Registro inserido pela primeira vez na tabela. |
+                    | `delete` | Registro removido da tabela. |
+                    | `update_preimage` | Estado do registro antes da atualização. |
+                    | `update_postimage` | Estado do registro após a atualização. |
 
-        with st.expander("Regra 5 — Próxima data útil"):
-            st.write("""
-            O script consulta a dimensão dim_PeriodoAutorizacao para buscar a próxima data útil.
-            Para SAO após as 13h, quando a data de inclusão é igual à primeira previsão,
-            a regra empurra a previsão para a próxima data útil do dia seguinte.
-            """)
+                    Para a construção da tabela analítica, são considerados apenas os registros
+                    classificados como `insert` e `update_postimage`, uma vez que representam,
+                    respectivamente, novos registros e a versão mais atualizada dos dados.
 
-        with st.expander("Regra 6 — Prazo da coleta finalizada"):
-            st.write("""
-            Se a situação da coleta for diferente de COLETADA, a coleta é classificada como Fora do Prazo.
-            Se estiver coletada e a diferença entre data coletada e data prevista for menor que 1,
-            é classificada como No Prazo. Caso contrário, fica Fora do Prazo.
-            """)
+                    Dessa forma, o modelo sempre trabalha com o estado mais recente das coletas,
+                    evitando o processamento de versões antigas e garantindo maior eficiência na
+                    carga incremental.
+                    
 
-        st.markdown("</div>", unsafe_allow_html=True)
+                    ### 2. Classificação de Horário da Unidade SAO
+
+                    Para as coletas pertencentes à unidade **SAO**, existe uma regra específica de
+                    classificação baseada na cidade do remetente e no horário de inclusão da coleta.
+
+                    São consideradas as seguintes cidades:
+
+                    - DIADEMA
+                    - BARUERI
+                    - OSASCO
+                    - SAO BERNARDO DO CAMPO
+                    - GUARULHOS
+                    - SAO PAULO
+
+                    Quando a coleta for registrada até às **13h00**, ela recebe a classificação:
+
+                    > SAO - Até as 13hrs
+
+                    Quando registrada após esse horário, recebe a classificação:
+
+                    > SAO - Após as 13hrs
+
+                    ---
+
+                    ### 3. Tratamento das Demais Filiais
+
+                    Quando a unidade emissora for diferente de SAO, a coleta não participa da regra
+                    especial de horário.
+
+                    Nestes casos o campo **nom_StatusHorario** recebe automaticamente:
+
+                    > Demais Filiais
+
+                    Essa separação permite análises específicas para a operação da filial de São
+                    Paulo sem impactar as demais unidades.
+
+                    ---
+
+                    ### 4. Ajuste da Primeira Previsão de Coleta
+
+                    O sistema utiliza prioritariamente a coluna
+                    `dat_DataHoraPrevisaoColetaInicio`.
+
+                    Quando essa informação não estiver disponível, a previsão passa a utilizar a
+                    coluna:
+
+                    `dat_DataHoraPrevisaoColetaFim`
+
+                    Dessa forma evita-se a perda da informação de previsão durante o processamento
+                    dos dados.
+
+                    ---
+
+                    ### 5. Cálculo da Próxima Data Útil
+
+                    A previsão de coleta é recalculada utilizando a dimensão
+                    `dim_PeriodoAutorizacao`.
+
+                    Para coletas da unidade SAO classificadas como:
+
+                    > SAO - Após as 13hrs
+
+                    e cuja data de inclusão seja igual à primeira data prevista de coleta, o sistema
+                    desloca a previsão para a próxima data útil disponível.
+
+                    Essa regra garante aderência ao processo operacional da unidade.
+
+                    ---
+
+                    ### 6. Validação de Prazo da Coleta
+
+                    A classificação final do prazo da coleta é baseada na situação operacional e na
+                    diferença entre a data prevista e a data efetiva da coleta.
+
+                    Critérios utilizados:
+
+                    | Situação | Resultado |
+                    |-----------|------------|
+                    | Situação diferente de COLETADA | Fora do Prazo |
+                    | Coletada com diferença menor que 1 dia | No Prazo |
+                    | Coletada com diferença igual ou superior a 1 dia | Fora do Prazo |
+
+                    O resultado é armazenado na coluna:
+
+                    `nom_PrazoColetaFinalizada`
+
+                    ---
+
+                    ### 7. Controle de Vencimento da Coleta
+
+                    O sistema também gera uma classificação para monitoramento operacional das
+                    coletas pendentes.
+
+                    Possíveis valores:
+
+                    - Hoje
+                    - Vencida
+                    - A Vencer
+                    - Finalizada
+
+                    Essa informação permite identificar rapidamente coletas que ainda aguardam
+                    atendimento ou que já ultrapassaram a data prevista.
+
+                    </div>
+                    """, unsafe_allow_html=True)
 
     with abas[4]:
-        st.markdown('<div class="section-card"><div class="section-title">Indicadores sugeridos para o BI</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-card"><div class="section-title">Indicadores</div>', unsafe_allow_html=True)
 
         tabela_indicadores = pd.DataFrame({
             "Indicador": [
@@ -380,7 +752,9 @@ def render():
                 "Cubagem Total",
                 "Volumes Totais",
                 "Valor de Mercadoria",
-                "Média de Dias de Prazo"
+                "Média de Dias de Prazo",
+                "Performance",
+                "Efetividade"
             ],
             "Regra": [
                 "Soma de qtd_Coleta.",
@@ -393,49 +767,15 @@ def render():
                 "Soma de kgs_CubagemM3.",
                 "Soma de qtd_QuantidadeVolume.",
                 "Soma de vlr_ValorMercadoria.",
-                "Média de qtd_DiasPrazoColeta."
+                "Média de qtd_DiasPrazoColeta.",
+                "Coletadas/ total de coletas",
+                "Coletadas no prazo/ total de coletadas"
             ]
         })
 
         st.dataframe(tabela_indicadores, use_container_width=True, hide_index=True)
 
-        st.markdown('<div class="small-label">Medidas DAX sugeridas</div>', unsafe_allow_html=True)
-
-        with st.expander("Quantidade de Coletas"):
-            st.code("""
-Quantidade Coletas =
-SUM(ft_SituacaoColetas[qtd_Coleta])
-""", language="DAX")
-
-        with st.expander("Coletas no Prazo"):
-            st.code("""
-Coletas no Prazo =
-CALCULATE(
-    [Quantidade Coletas],
-    ft_SituacaoColetas[nom_PrazoColetaFinalizada] = "No Prazo"
-)
-""", language="DAX")
-
-        with st.expander("Coletas Fora do Prazo"):
-            st.code("""
-Coletas Fora do Prazo =
-CALCULATE(
-    [Quantidade Coletas],
-    ft_SituacaoColetas[nom_PrazoColetaFinalizada] = "Fora do Prazo"
-)
-""", language="DAX")
-
-        with st.expander("Percentual no Prazo"):
-            st.code("""
-% Coletas no Prazo =
-DIVIDE(
-    [Coletas no Prazo],
-    [Quantidade Coletas],
-    0
-)
-""", language="DAX")
-
-        st.markdown("</div>", unsafe_allow_html=True)
+        
 
     with abas[5]:
         st.markdown('<div class="section-card"><div class="section-title">Trechos técnicos documentados</div>', unsafe_allow_html=True)
