@@ -108,10 +108,10 @@ def render():
             o remetente, o pagador, o destino, os dados da carga e a classificação final do prazo.
             </p>
 
-            <div class="highlight">
+            
             O principal foco analítico é identificar se a coleta foi finalizada no prazo ou fora do prazo,
             considerando regras específicas para a unidade SAO, horário de inclusão e calendário de dias úteis.
-            </div>
+        
         </div>
         """, unsafe_allow_html=True)
 
