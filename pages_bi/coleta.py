@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
+import base64
 
 
 def render():
@@ -101,174 +102,174 @@ def render():
     with abas[0]:
         def render_situacao_coleta_interativo():
 
-            imagem = img_to_base64("img/SituacaoColeta.jpg")
+          imagem = img_to_base64("img/SituacaoColeta.jpg")
 
-            html = f"""
+          html = f"""
             <style>
-                .painel {{
-                    position: relative;
-                    width: 100%;
-                    max-width: 1550px;
-                    margin: auto;
-                }}
+                    .painel {{
+                        position: relative;
+                        width: 100%;
+                        max-width: 1550px;
+                        margin: auto;
+                    }}
 
-                .painel img {{
-                    width: 100%;
-                    border-radius: 8px;
-                }}
+                    .painel img {{
+                        width: 100%;
+                        border-radius: 8px;
+                    }}
 
-                .hotspot {{
-                    position: absolute;
-                    cursor: pointer;
-                    border: 2px solid transparent;
-                    transition: 0.2s;
-                }}
+                    .hotspot {{
+                        position: absolute;
+                        cursor: pointer;
+                        border: 2px solid transparent;
+                        transition: 0.2s;
+                    }}
 
-                .hotspot:hover {{
-                    border: 3px solid #00BFFF;
-                    background: rgba(0,191,255,0.15);
-                    box-shadow: 0 0 14px rgba(0,191,255,0.8);
-                }}
+                    .hotspot:hover {{
+                        border: 3px solid #00BFFF;
+                        background: rgba(0,191,255,0.15);
+                        box-shadow: 0 0 14px rgba(0,191,255,0.8);
+                    }}
 
-                .tooltip {{
-                    visibility: hidden;
-                    opacity: 0;
-                    position: absolute;
-                    z-index: 9999;
-                    width: 380px;
-                    background: white;
-                    color: #333;
-                    border-radius: 14px;
-                    padding: 16px;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.30);
-                    top: 105%;
-                    left: 0;
-                    transition: opacity 0.25s ease;
-                }}
+                    .tooltip {{
+                        visibility: hidden;
+                        opacity: 0;
+                        position: absolute;
+                        z-index: 9999;
+                        width: 380px;
+                        background: white;
+                        color: #333;
+                        border-radius: 14px;
+                        padding: 16px;
+                        box-shadow: 0 8px 24px rgba(0,0,0,0.30);
+                        top: 105%;
+                        left: 0;
+                        transition: opacity 0.25s ease;
+                    }}
 
-                .hotspot:hover .tooltip {{
-                    visibility: visible;
-                    opacity: 1;
-                }}
+                    .hotspot:hover .tooltip {{
+                        visibility: visible;
+                        opacity: 1;
+                    }}
 
-                .tooltip h3 {{
-                    margin-top:0;
-                    color:#0b4f8a;
-                }}
+                    .tooltip h3 {{
+                        margin-top:0;
+                        color:#0b4f8a;
+                    }}
             </style>
 
-            <div class="painel">
+                <div class="painel">
 
-                <img src="data:image/png;base64,{imagem}">
+                    <img src="data:image/png;base64,{imagem}">
 
-                <!-- COLETAS -->
-                <div class="hotspot"
-                    style="left:0.5%; top:20%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Coletas</h3>
-                        <p>
-                        Quantidade total de coletas registradas no período selecionado.
-                        Corresponde ao volume geral da operação.
-                        </p>
+                    <!-- COLETAS -->
+                    <div class="hotspot"
+                        style="left:0.5%; top:20%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Coletas</h3>
+                            <p>
+                            Quantidade total de coletas registradas no período selecionado.
+                            Corresponde ao volume geral da operação.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- COLETADAS -->
-                <div class="hotspot"
-                    style="left:17%; top:20%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Coletadas</h3>
-                        <p>
-                        Quantidade de coletas cuja situação atual é COLETADA.
-                        </p>
+                    <!-- COLETADAS -->
+                    <div class="hotspot"
+                        style="left:17%; top:20%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Coletadas</h3>
+                            <p>
+                            Quantidade de coletas cujo tem data de coleta.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- COMANDADAS -->
-                <div class="hotspot"
-                    style="left:34%; top:20%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Comandadas</h3>
-                        <p>
-                        Coletas já encaminhadas operacionalmente para execução.
-                        </p>
+                    <!-- COMANDADAS -->
+                    <div class="hotspot"
+                        style="left:34%; top:20%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Comandadas</h3>
+                            <p>
+                            Coletas já encaminhadas operacionalmente para execução.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- CANCELADAS -->
-                <div class="hotspot"
-                    style="left:50.5%; top:20%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Canceladas</h3>
-                        <p>
-                        Coletas canceladas antes da conclusão operacional.
-                        </p>
+                    <!-- CANCELADAS -->
+                    <div class="hotspot"
+                        style="left:50.5%; top:20%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Canceladas</h3>
+                            <p>
+                            Coletas canceladas antes da conclusão operacional.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- CADASTRADAS -->
-                <div class="hotspot"
-                    style="left:67%; top:20%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Cadastradas</h3>
-                        <p>
-                        Coletas registradas no sistema e aguardando evolução.
-                        </p>
+                    <!-- CADASTRADAS -->
+                    <div class="hotspot"
+                        style="left:67%; top:20%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Cadastradas</h3>
+                            <p>
+                            Coletas registradas no sistema e aguardando evolução.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- PRE CADASTRADAS -->
-                <div class="hotspot"
-                    style="left:83.5%; top:20%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Pré-Cadastradas</h3>
-                        <p>
-                        Coletas que ainda não concluíram o processo completo de cadastro.
-                        </p>
+                    <!-- PRE CADASTRADAS -->
+                    <div class="hotspot"
+                        style="left:83.5%; top:20%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Pré-Cadastradas</h3>
+                            <p>
+                            Coletas que ainda não concluíram o processo completo de cadastro.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- HOJE -->
-                <div class="hotspot"
-                    style="left:0.5%; top:36%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Hoje</h3>
-                        <p>
-                        Coletas com vencimento previsto para o dia atual.
-                        </p>
+                    <!-- HOJE -->
+                    <div class="hotspot"
+                        style="left:0.5%; top:36%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Hoje</h3>
+                            <p>
+                            Coletas com vencimento previsto para o dia atual.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- A VENCER -->
-                <div class="hotspot"
-                    style="left:17%; top:36%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>A Vencer</h3>
-                        <p>
-                        Coletas ainda dentro do prazo previsto.
-                        </p>
+                    <!-- A VENCER -->
+                    <div class="hotspot"
+                        style="left:17%; top:36%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>A Vencer</h3>
+                            <p>
+                            Coletas ainda dentro do prazo previsto.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- VENCIDAS -->
-                <div class="hotspot"
-                    style="left:34%; top:36%; width:16%; height:14%;">
-                    <div class="tooltip">
-                        <h3>Vencidas</h3>
-                        <p>
-                        Coletas cuja data prevista já foi ultrapassada.
-                        </p>
+                    <!-- VENCIDAS -->
+                    <div class="hotspot"
+                        style="left:34%; top:36%; width:16%; height:14%;">
+                        <div class="tooltip">
+                            <h3>Vencidas</h3>
+                            <p>
+                            Coletas cuja data prevista já foi ultrapassada.
+                            </p>
+                        </div>
                     </div>
+
                 </div>
+                """
 
-            </div>
-            """
-
-            components.html(
-                html,
-                height=900,
-                scrolling=True
-            )
+        components.html(
+                            html,
+                            height=900,
+                            scrolling=True
+                             )
 
 
 
