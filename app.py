@@ -83,7 +83,7 @@ elif menu == "Emissões Antecipadas":
 elif menu == "Faturamento Interno":
     Financeiro2024.render() 
 
-elif menu == "Coletas":
+elif menu == "Situação Coleta":
     coleta.render() 
 
 elif menu == "Cotação":   st.write("Em construção...")
