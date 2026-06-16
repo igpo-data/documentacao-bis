@@ -78,7 +78,7 @@ def render():
 
     st.markdown('<div class="main-title">Situação Coletas</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="subtitle">Documentação técnica e funcional do fluxo de situação de coletas.</div>',
+        '<div class="subtitle">Documentação técnica do fluxo de situação de coletas.</div>',
         unsafe_allow_html=True
     )
 
@@ -236,12 +236,8 @@ def render():
             O BI de Situação Coletas tem como objetivo acompanhar as coletas registradas no ambiente,
             avaliando a situação operacional, o prazo previsto de coleta, a data/hora de inclusão, a unidade emissora,
             o remetente, o pagador, o destino, os dados da carga e a classificação final do prazo.
-            </p>
-
-            <p>
-            O principal foco analítico é identificar se a coleta foi finalizada no prazo ou fora do prazo,
-            considerando regras específicas para a unidade SAO, horário de inclusão e calendário de dias úteis.
-            </p>
+           O principal foco analítico é identificar se a coleta foi finalizada no prazo ou fora do prazo,
+            considerando regras específicas para a unidade SAO, horário de inclusão e calendário de dias úteis.</p>
         </div>
         """, unsafe_allow_html=True)
 
