@@ -9,8 +9,8 @@ def render():
     st.title("E-commerce")
 
     st.info("""
-     BI que tem como principal objetivo a análise dos clientes que são do NCE, com uma flag para aquele que também são E-Commerce. Lembrar
-    que todo E-commerce é NCE, porém nem todo NCE é E-commerce. 
+     BI que tem como principal objetivo a análise do Núcleo de Clientes Especiais com uma flag para aquele que também são E-Commerce. Lembrar
+    que todo E-commerce é NCE, porém nem todo NCE é E-commerce. Ex: John Deere. 
     """)
 
     abas = st.tabs([
@@ -21,7 +21,8 @@ def render():
         "Visão Mapas",
         "Por Cliente",
         "SLA Por Cliente",
-        "Analítico"
+        "Analítico", 
+        "Modelagem e Extração"
     ])
 
     with abas[0]:
@@ -100,7 +101,7 @@ def render():
                 <div class="hotspot" style="left:0.3%; top:8.8%; width:12.3%; height:8.4%;">
                     <div class="tooltip">
                         <h3>Cliente Ecommerce</h3>
-                        <p>Filtro usado para separar clientes que são ou não são ecommerce.
+                        <p>Filtro usado para separar clientes que são ecommerce ou não, formato de flag. 
                         <code>dim_Pagador (flg_Ecommerce)</code>
                         </p>
                     </div>
@@ -119,7 +120,7 @@ def render():
                     <div class="tooltip">
                         <h3>Cliente</h3>
                         <p>Permite selecionar um cliente específico e visualizar os indicadores apenas dele.
-                        Modelagem: há uma lista de clientes que são participantes do núcleo de clientes especiais essa
+                        Modelagem: há uma lista de clientes que são participantes do Núcleo de Clientes Especiais essa
                         relação é configurada de maneira manual em uma planilha no sheerpoint. 
                         <code>dim_Pagador (nom_ClienteNCE)</code>
                         </p>
@@ -219,8 +220,7 @@ def render():
                 <div class="hotspot" style="left:70%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencem em 2 Dias</h3>
-                        <p>CTRC’ s em que a data de previsão de entrega é D+2.
-</p>
+                        <p>CTRC’ s em que a data de previsão de entrega é D+2.</p>
                     </div>
                 </div>
 
@@ -254,8 +254,8 @@ def render():
 
                 <div class="hotspot" style="left:0.5%; top:72%; width:98%; height:26%;">
                     <div class="tooltip">
-                        <h3>Tabela Analítica</h3>
-                        <p>Lista os CT-e detalhados com destino, ocorrência, previsão de entrega e destinatário.</p>
+                        <h3>Tabela de Exportação</h3>
+                        <p>Lista os CT-e detalhados com destino, ocorrência, previsão de entrega e destinatário. </p>
                     </div>
                 </div>
             </div>
@@ -265,3 +265,17 @@ def render():
 
 
         render_ecommerce_interativo()
+
+    with abas[8]:
+        st.markdown("""Nesse BI é feito pela extração da 455 junto com a sua complementar A, sendo as colunas necessárias: 
+        - Serie/Numero CTRC : Comtemplar a tabela de exportação, medida de soma de quantidade de CTRC dentro do período e constitui filtro. 
+        \\
+        - Cliente Destinatário: Comtemplar a tabela de exportação e dentro da modelagem a dim_Destinatario
+        \\
+        - Cidade Destino: Comtemplar a tabela de exportação e dentro da modelagem a dim_Destinatario
+        \\
+        - Unidade de Destino: Comtemplar a tabela de exportação e dentro da modelagem a dim_Destinatario
+        \\
+        - Data de hoje - Previsão de entrega = Atraso do CTRC. Nessa contexto formatação da dim_Previsão de Entrega aqui. 
+                    
+                     """)
