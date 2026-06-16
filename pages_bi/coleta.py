@@ -150,7 +150,6 @@ def render():
                     color: #0b4f8a;
                 }}
             </style>
-
             <div class="painel">
 
                 <img src="data:image/png;base64,{imagem}">
@@ -229,13 +228,18 @@ def render():
 
         render_situacao_coleta_interativo()
 
+       
+
         st.markdown("""
         <div class="section-card">
-            <div class="section-title">Objetivo do BI</div>
-            <p>
+            <div class="section-title">Objetivo do BI</div>  """, unsafe_allow_html=True)
+        
+        
+        st.markdown(""")
             O BI de Situação Coletas tem como objetivo acompanhar as coletas registradas no ambiente,
             avaliando a situação operacional, o prazo previsto de coleta, a data/hora de inclusão, a unidade emissora,
             o remetente, o pagador, o destino, os dados da carga e a classificação final do prazo.
+                    
            O principal foco analítico é identificar se a coleta foi finalizada no prazo ou fora do prazo,
             considerando regras específicas para a unidade SAO, horário de inclusão e calendário de dias úteis.</p>
         </div>
@@ -277,15 +281,67 @@ def render():
 
         st.markdown("""
         <div class="section-card">
-            <div class="section-title">Resumo executivo</div>
-            <p>
+            <div class="section-title">Extração dos dados</div>""", unsafe_allow_html=True)
+        
+        imagem = img_to_base64("img/TelaExtracaoColetas.jpg")
+
+        html = f"""
+        <style>
+            .ssw-print {{
+                position: relative;
+                width: 100%;
+            }}
+
+            .ssw-print img {{
+                width: 100%;
+                display: block;
+            }}
+
+            .quadrado-piscando {{
+                position: absolute;
+                left: 3.5%;
+                top: 31%;
+                width: 22%;
+                height: 23%;
+
+                border: 4px solid #0066ff;
+                background: rgba(0, 102, 255, 0.12);
+                border-radius: 6px;
+
+                animation: piscarAzul 1s infinite;
+                box-shadow: 0 0 18px rgba(0, 102, 255, 0.9);
+                pointer-events: none;
+            }}
+
+            @keyframes piscarAzul {{
+                0% {{
+                    opacity: 1;
+                    box-shadow: 0 0 20px rgba(0, 102, 255, 1);
+                }}
+                50% {{
+                    opacity: 0.15;
+                    box-shadow: 0 0 4px rgba(0, 102, 255, 0.2);
+                }}
+                100% {{
+                    opacity: 1;
+                    box-shadow: 0 0 20px rgba(0, 102, 255, 1);
+                }}
+            }}
+        </style>
+
+        <div class="ssw-print">
+            <img src="data:image/png;base64,{imagem}">
+            <div class="quadrado-piscando"></div>
+        </div>
+        """
+
+        components.html(html, height=700, scrolling=True)
+
+        st.markdown("""
             O script lê apenas registros alterados ou inseridos na tabela Silver, calcula campos auxiliares de horário,
             ajusta a previsão de coleta conforme regra de unidade e calendário, relaciona as informações com dimensões
             de empresa, período, unidade, remetente e pagador, e entrega uma tabela analítica preparada para consumo no
-            modelo semântico do Power BI.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+            modelo semântico do Power BI.""", unsafe_allow_html=True)
 
     with abas[1]:
         st.markdown('<div class="section-card"><div class="section-title">Fluxo lógico do processo</div>', unsafe_allow_html=True)
