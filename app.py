@@ -1,18 +1,4 @@
 import streamlit as st
-from pages_bi import (
-    bi_Comercial_Geral,
-    bi_Acompanhamento_Comercial,
-    bi_Analise_dfsa,
-    modelo,
-    analise_churn,
-    Descarga,
-    Performance_Geral,
-    Ecommerce,
-    cotacao,
-    EmissoesAntecipadas,
-    Financeiro2024,
-    coleta
-    )
 
 st.set_page_config(
     page_title="Documentação dos BIs",
@@ -60,30 +46,39 @@ menu = st.sidebar.radio(
 )
 
 if menu == "Comercial Geral":
+    from pages_bi import bi_Comercial_Geral
     bi_Comercial_Geral.render()
 
 elif menu == "Analise Churn": 
+    from pages_bi import analise_churn
     analise_churn.render() 
 
 elif menu == "Descarga": 
+     from pages_bi import Descarga
      Descarga.render() 
 
 elif menu == "Performance Geral": 
+     from pages_bi import Performance_Geral
      Performance_Geral.render() 
     
 elif menu == "modelo":
+    from pages_bi import modelo
     modelo.render()   
 
 elif menu == "E-commerce":
+    from pages_bi import Ecommerce
     Ecommerce.render()  
 
 elif menu == "SuperAção":
+    from pages_bi import EmissoesAntecipadas
     EmissoesAntecipadas.render() 
 
 elif menu == "Faturamento Interno":
+    from pages_bi import Financeiro2024
     Financeiro2024.render() 
 
 elif menu == "Situação Coleta":
+    from pages_bi import coleta
     coleta.render() 
 
 elif menu == "Cotação":   st.write("Em construção...")

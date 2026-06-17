@@ -138,172 +138,152 @@ def render():
 
         st.markdown("""
                             <h5>Power Query:</h5>""", unsafe_allow_html=True)
-        st.markdown("""
-            <style>
-                .query-card {
-                    border: 1px solid #d9e2ec;
-                    border-radius: 8px;
-                    padding: 22px 24px;
-                    background: #ffffff;
-                    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-                    margin-bottom: 18px;
-                }
 
-                .query-card h3 {
-                    margin: 0 0 8px 0;
-                    color: #0f172a;
-                    font-size: 1.25rem;
-                    font-weight: 700;
-                }
+        st.markdown("**Mapeamento das colunas da consulta**")
+        tabela_power_query = pd.DataFrame({
+            "Coluna": [
+                "Data Arquivo",
+                "CHAVE DANFE - Copiar",
+                "NF-E - Copiar",
+                "id_danfe_nfe",
+                "915.ctrc",
+                "915.data_emissao",
+                "915.hora_emissao",
+                "915.nro_chave_acesso_nfe",
+                "hora_emissao",
+                "grupo_hora_emissao",
+                "chave_danfe_2",
+                "id_ctrc_busca",
+            ],
+            "Descrição": [
+                "Data do arquivo processado. Utilizada para aplicação do filtro incremental através dos parâmetros RangeStart e RangeEnd.",
+                "Cópia da coluna CHAVE DANFE criada para permitir a construção de chaves auxiliares sem alterar o campo original.",
+                "Cópia da coluna NF-E utilizada na composição da chave de relacionamento com a base 915.",
+                "Chave composta pela concatenação da CHAVE DANFE e da NF-E. Utilizada para relacionar os registros da vw_206 com a view_915.",
+                "Número do CTRC retornado da view_915 após o relacionamento entre as tabelas.",
+                "Data de emissão do CTRC obtida na view_915.",
+                "Horário de emissão do CTRC obtido na view_915.",
+                "Chave de acesso da Nota Fiscal Eletrônica retornada pela view_915.",
+                "Campo derivado do horário de emissão, utilizado para análises e classificações por horário.",
+                "Classificação do horário de emissão em faixas de horário para análise operacional.",
+                "Campo contendo os primeiros 44 caracteres da chave DANFE. Utilizado para padronização e validações.",
+                "Chave técnica criada pela concatenação da CHAVE DANFE, NR1, NR2, COLETA e HORA. Utilizada para identificação única e rastreabilidade dos registros.",
+            ],
+        })
+        st.dataframe(tabela_power_query, use_container_width=True, hide_index=True)
 
-                .query-card p {
-                    margin: 0;
-                    color: #475569;
-                    line-height: 1.55;
-                }
+        col_regras, col_chave = st.columns(2)
 
-                .query-grid {
-                    display: grid;
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
-                    gap: 14px;
-                    margin-top: 16px;
-                }
+        with col_regras:
+            st.markdown("**Detalhamento do campo `grupo_hora_emissao`**")
+            tabela_grupo_hora = pd.DataFrame({
+                "Valor": [
+                    "Menor que 19hs",
+                    "Maior que 19hs",
+                    "Vazio",
+                ],
+                "Regra": [
+                    "Horário de emissão menor ou igual ao horário limite definido para antecipação.",
+                    "Horário de emissão superior ao horário limite definido para antecipação.",
+                    "Registro sem horário de emissão informado.",
+                ],
+            })
+            st.dataframe(tabela_grupo_hora, use_container_width=True, hide_index=True)
 
-                .query-step {
-                    border: 1px solid #e5e7eb;
-                    border-radius: 8px;
-                    padding: 16px;
-                    background: #f8fafc;
-                }
+        with col_chave:
+            st.markdown("**Detalhamento do campo `id_ctrc_busca`**")
+            tabela_id_ctrc = pd.DataFrame({
+                "Campo utilizado": [
+                    "CHAVE DANFE",
+                    "NR1",
+                    "NR2",
+                    "COLETA",
+                    "HORA",
+                ],
+                "Finalidade": [
+                    "Identificação da NF-e",
+                    "Número de referência operacional",
+                    "Número complementar de referência",
+                    "Identificador da coleta",
+                    "Horário do registro operacional",
+                ],
+            })
+            st.dataframe(tabela_id_ctrc, use_container_width=True, hide_index=True)
 
-                .query-step strong {
-                    display: block;
-                    margin-bottom: 8px;
-                    color: #1e293b;
-                    font-size: 0.98rem;
-                }
+        with st.container(border=True):
+            st.markdown("""
+            A extração dos dados é realizada a partir do banco PostgreSQL,
+            utilizando conexão ODBC com o ambiente corporativo da Carvalima.
+            A origem da consulta é a view **vw_206**, localizada no schema **public**.
+            """)
 
-                .query-step ul {
-                    margin: 8px 0 0 18px;
-                    padding: 0;
-                    color: #475569;
-                    line-height: 1.55;
-                }
+            col1, col2 = st.columns(2)
 
-                .query-tag {
-                    display: inline-block;
-                    margin: 4px 4px 0 0;
-                    padding: 4px 8px;
-                    border-radius: 6px;
-                    background: #e0f2fe;
-                    color: #075985;
-                    font-size: 0.82rem;
-                    font-weight: 600;
-                }
+            with col1:
+                with st.container(border=True):
+                    st.markdown("**1. Filtro e padronização inicial**")
+                    st.markdown("""
+                    Os registros são filtrados por `RangeStart` e `RangeEnd`.
+                    Depois, a coluna `Data Arquivo` é convertida para data,
+                    garantindo consistência para análises temporais.
+                    """)
 
-                .query-note {
-                    border-left: 4px solid #2563eb;
-                    padding: 12px 14px;
-                    margin-top: 16px;
-                    background: #eff6ff;
-                    color: #334155;
-                    border-radius: 0 8px 8px 0;
-                }
+                with st.container(border=True):
+                    st.markdown("**3. Enriquecimento com a view 915**")
+                    st.markdown("""
+                    É realizado um **Left Join** com a `view_915`, relacionando
+                    `id_danfe_nfe` com `id_chave_nota_fiscal`.
 
-                @media (max-width: 900px) {
-                    .query-grid {
-                        grid-template-columns: 1fr;
-                    }
-                }
-            </style>
+                    Informações incorporadas:
 
-            <div class="query-card">
-                <h3>Transformações Aplicadas na Consulta</h3>
-                <p>
-                    A extração dos dados é realizada a partir do banco PostgreSQL,
-                    utilizando conexão ODBC com o ambiente corporativo da Carvalima.
-                    A origem da consulta é a view <strong>vw_206</strong>, localizada
-                    no schema <strong>public</strong>.
-                </p>
+                    - CTRC emitido
+                    - Data e hora de emissão
+                    - Chave de acesso da NF-e
+                    """)
 
-                <div class="query-grid">
-                    <div class="query-step">
-                        <strong>1. Filtro e padronização inicial</strong>
-                        <p>
-                            Os registros são filtrados por <span class="query-tag">RangeStart</span>
-                            e <span class="query-tag">RangeEnd</span>. Depois, a coluna
-                            <span class="query-tag">Data Arquivo</span> é convertida para data,
-                            garantindo consistência para análises temporais no Power BI.
-                        </p>
-                    </div>
+                with st.container(border=True):
+                    st.markdown("**5. Padronização da chave DANFE**")
+                    st.markdown("""
+                    A coluna `chave_danfe_2` recebe os primeiros 44 caracteres da
+                    chave DANFE, facilitando validações e cruzamentos futuros.
+                    """)
 
-                    <div class="query-step">
-                        <strong>2. Chave de integração</strong>
-                        <p>
-                            São criadas cópias das colunas <span class="query-tag">CHAVE DANFE</span>
-                            e <span class="query-tag">NF-E</span> para formar a chave
-                            <span class="query-tag">id_danfe_nfe</span>, usada no relacionamento
-                            entre as views 206 e 915.
-                        </p>
-                    </div>
+            with col2:
+                with st.container(border=True):
+                    st.markdown("**2. Chave de integração**")
+                    st.markdown("""
+                    São criadas cópias das colunas `CHAVE DANFE` e `NF-E` para
+                    formar a chave `id_danfe_nfe`, usada no relacionamento entre
+                    as views 206 e 915.
+                    """)
 
-                    <div class="query-step">
-                        <strong>3. Enriquecimento com a view 915</strong>
-                        <p>
-                            É realizado um <strong>Left Join</strong> com a
-                            <span class="query-tag">view_915</span>, relacionando
-                            <span class="query-tag">id_danfe_nfe</span> com
-                            <span class="query-tag">id_chave_nota_fiscal</span>.
-                        </p>
-                        <ul>
-                            <li>CTRC emitido</li>
-                            <li>Data e hora de emissão</li>
-                            <li>Chave de acesso da NF-e</li>
-                        </ul>
-                    </div>
+                with st.container(border=True):
+                    st.markdown("**4. Classificação por horário**")
+                    st.markdown("""
+                    A coluna de hora de emissão é tratada para criar
+                    `grupo_hora_emissao`, separando as emissões por faixa horária.
 
-                    <div class="query-step">
-                        <strong>4. Classificação por horário</strong>
-                        <p>
-                            A coluna de hora de emissão é tratada para criar
-                            <span class="query-tag">grupo_hora_emissao</span>, separando
-                            as emissões por faixa horária.
-                        </p>
-                        <ul>
-                            <li>Menor que 19hs</li>
-                            <li>Maior que 19hs</li>
-                            <li>Vazio</li>
-                        </ul>
-                    </div>
+                    Classificações:
 
-                    <div class="query-step">
-                        <strong>5. Padronização da chave DANFE</strong>
-                        <p>
-                            A coluna <span class="query-tag">chave_danfe_2</span> recebe os
-                            primeiros 44 caracteres da chave DANFE, facilitando validações
-                            e cruzamentos futuros.
-                        </p>
-                    </div>
+                    - Menor que 19hs
+                    - Maior que 19hs
+                    - Vazio
+                    """)
 
-                    <div class="query-step">
-                        <strong>6. Chave técnica operacional</strong>
-                        <p>
-                            A chave <span class="query-tag">id_ctrc_busca</span> identifica
-                            cada ocorrência operacional a partir da concatenação dos campos:
-                        </p>
-                        <ul>
-                            <li>CHAVE DANFE</li>
-                            <li>NR1</li>
-                            <li>NR2</li>
-                            <li>COLETA</li>
-                            <li>HORA</li>
-                        </ul>
-                    </div>
-                </div>
+                with st.container(border=True):
+                    st.markdown("**6. Chave técnica operacional**")
+                    st.markdown("""
+                    A chave `id_ctrc_busca` identifica cada ocorrência operacional
+                    a partir da concatenação dos campos:
 
-                <div class="query-note">
-                    Essa estrutura apoia validações, rastreabilidade e análises de
-                    consistência dos dados dentro do modelo.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+                    - CHAVE DANFE
+                    - NR1
+                    - NR2
+                    - COLETA
+                    - HORA
+                    """)
+
+            st.info(
+                "Essa estrutura apoia validações, rastreabilidade e análises de "
+                "consistência dos dados dentro do modelo."
+            )
