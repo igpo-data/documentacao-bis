@@ -7,7 +7,7 @@ def render():
     st.title("Emissões Antecipadas")
 
     st.info("""
-    Este BI tem pos finalidade o calculo dados aos motorista. 
+    Este BI tem por finalidade o calculo do Prêmio Superação
             \n 
             Base: 915 e 206. 
     """)
