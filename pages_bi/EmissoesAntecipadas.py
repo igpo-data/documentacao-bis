@@ -137,4 +137,173 @@ def render():
         #st.header("Titulo Grandão")
 
         st.markdown("""
-                            <h4>Visual:</h4>""", unsafe_allow_html=True)
+                            <h5>Power Query:</h5>""", unsafe_allow_html=True)
+        st.markdown("""
+            <style>
+                .query-card {
+                    border: 1px solid #d9e2ec;
+                    border-radius: 8px;
+                    padding: 22px 24px;
+                    background: #ffffff;
+                    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+                    margin-bottom: 18px;
+                }
+
+                .query-card h3 {
+                    margin: 0 0 8px 0;
+                    color: #0f172a;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                }
+
+                .query-card p {
+                    margin: 0;
+                    color: #475569;
+                    line-height: 1.55;
+                }
+
+                .query-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 14px;
+                    margin-top: 16px;
+                }
+
+                .query-step {
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 16px;
+                    background: #f8fafc;
+                }
+
+                .query-step strong {
+                    display: block;
+                    margin-bottom: 8px;
+                    color: #1e293b;
+                    font-size: 0.98rem;
+                }
+
+                .query-step ul {
+                    margin: 8px 0 0 18px;
+                    padding: 0;
+                    color: #475569;
+                    line-height: 1.55;
+                }
+
+                .query-tag {
+                    display: inline-block;
+                    margin: 4px 4px 0 0;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                    background: #e0f2fe;
+                    color: #075985;
+                    font-size: 0.82rem;
+                    font-weight: 600;
+                }
+
+                .query-note {
+                    border-left: 4px solid #2563eb;
+                    padding: 12px 14px;
+                    margin-top: 16px;
+                    background: #eff6ff;
+                    color: #334155;
+                    border-radius: 0 8px 8px 0;
+                }
+
+                @media (max-width: 900px) {
+                    .query-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+
+            <div class="query-card">
+                <h3>Transformações Aplicadas na Consulta</h3>
+                <p>
+                    A extração dos dados é realizada a partir do banco PostgreSQL,
+                    utilizando conexão ODBC com o ambiente corporativo da Carvalima.
+                    A origem da consulta é a view <strong>vw_206</strong>, localizada
+                    no schema <strong>public</strong>.
+                </p>
+
+                <div class="query-grid">
+                    <div class="query-step">
+                        <strong>1. Filtro e padronização inicial</strong>
+                        <p>
+                            Os registros são filtrados por <span class="query-tag">RangeStart</span>
+                            e <span class="query-tag">RangeEnd</span>. Depois, a coluna
+                            <span class="query-tag">Data Arquivo</span> é convertida para data,
+                            garantindo consistência para análises temporais no Power BI.
+                        </p>
+                    </div>
+
+                    <div class="query-step">
+                        <strong>2. Chave de integração</strong>
+                        <p>
+                            São criadas cópias das colunas <span class="query-tag">CHAVE DANFE</span>
+                            e <span class="query-tag">NF-E</span> para formar a chave
+                            <span class="query-tag">id_danfe_nfe</span>, usada no relacionamento
+                            entre as views 206 e 915.
+                        </p>
+                    </div>
+
+                    <div class="query-step">
+                        <strong>3. Enriquecimento com a view 915</strong>
+                        <p>
+                            É realizado um <strong>Left Join</strong> com a
+                            <span class="query-tag">view_915</span>, relacionando
+                            <span class="query-tag">id_danfe_nfe</span> com
+                            <span class="query-tag">id_chave_nota_fiscal</span>.
+                        </p>
+                        <ul>
+                            <li>CTRC emitido</li>
+                            <li>Data e hora de emissão</li>
+                            <li>Chave de acesso da NF-e</li>
+                        </ul>
+                    </div>
+
+                    <div class="query-step">
+                        <strong>4. Classificação por horário</strong>
+                        <p>
+                            A coluna de hora de emissão é tratada para criar
+                            <span class="query-tag">grupo_hora_emissao</span>, separando
+                            as emissões por faixa horária.
+                        </p>
+                        <ul>
+                            <li>Menor que 19hs</li>
+                            <li>Maior que 19hs</li>
+                            <li>Vazio</li>
+                        </ul>
+                    </div>
+
+                    <div class="query-step">
+                        <strong>5. Padronização da chave DANFE</strong>
+                        <p>
+                            A coluna <span class="query-tag">chave_danfe_2</span> recebe os
+                            primeiros 44 caracteres da chave DANFE, facilitando validações
+                            e cruzamentos futuros.
+                        </p>
+                    </div>
+
+                    <div class="query-step">
+                        <strong>6. Chave técnica operacional</strong>
+                        <p>
+                            A chave <span class="query-tag">id_ctrc_busca</span> identifica
+                            cada ocorrência operacional a partir da concatenação dos campos:
+                        </p>
+                        <ul>
+                            <li>CHAVE DANFE</li>
+                            <li>NR1</li>
+                            <li>NR2</li>
+                            <li>COLETA</li>
+                            <li>HORA</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="query-note">
+                    Essa estrutura apoia validações, rastreabilidade e análises de
+                    consistência dos dados dentro do modelo.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)

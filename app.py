@@ -53,7 +53,7 @@ menu = st.sidebar.radio(
         "Torre de Controle",
         "Analise Churn",
         "modelo",
-        "Emissões Antecipadas", 
+        "SuperAção", 
         "Faturamento Interno",
         "Coletas"
         ]
@@ -77,7 +77,7 @@ elif menu == "modelo":
 elif menu == "E-commerce":
     Ecommerce.render()  
 
-elif menu == "Emissões Antecipadas":
+elif menu == "SuperAção":
     EmissoesAntecipadas.render() 
 
 elif menu == "Faturamento Interno":
