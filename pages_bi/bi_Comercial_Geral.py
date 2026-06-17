@@ -269,30 +269,7 @@ def render():
 ########------------Visão Geral ------------------########
     with abas[1]:
                 st.markdown("""
-                            <h4>Projeção Filial:</h4>""", unsafe_allow_html=True)
-                
-                ##### Depois adiciona  diagrama #####
-                ##components.html("""
-                    ##<div class="mermaid">
-                        ##erDiagram
-
-                        
-                            
-
-                            ##dim_PeriodoMetaDiaria ||--o{ fato_MetaUnidadeDiaria : Periodo_Meta
-                            ##dim_UnidadeBeneficiaria ||--o{ fato_MetaUnidadeDiaria : Unidade
-
-                            ##dim_PeriodoAutorizacao ||--o{ fato_FreteExpedidoRecebido : PeriodoAut
-                            ##dim_PeriodoEmissao ||--o{ fato_FreteExpedidoRecebido : PeriodoEmissao
-                            ##dim_UnidadeBeneficiaria ||--o{ fato_FreteExpedidoRecebido : Unidade
-
-                        ##</div>
-
-                        ##<script type="module">
-                        ##import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-                        ##mermaid.initialize({ startOnLoad: true });
-                        ##</script>
-                        ##""", height=800)
+                            <h5>Projeção Filial:</h5>""", unsafe_allow_html=True)
 
                 st.markdown("""Neste BI se encontra a quantidade de dias úteis dentro daquele mês, por exemplo, o 
                             mês de abril de 2026 há 21 dias úteis tirando os feriados e contabilizando o sábado como 0,25 para fins 
@@ -336,19 +313,16 @@ def render():
                         
 
                 
-                st.markdown("""Tabela de Exportação da Projeção Filial:          
-                """ )
+                st.markdown("""Tabela de Exportação da Projeção Filial:      """ )
 
-                
-
-                ##st.table({
-                    ##"Fonte": ["tabela_exemplo"],
-                    ##"Tipo": ["Tabela PostgreSQL"],
-                    ##"Descrição": ["Descrever o uso dessa tabela"]
-                
-
+                ##completar 
                 st.markdown("""
-                            <h4>Modelagem de Dados</h4>""", unsafe_allow_html=True)
+                            <h5>Modelagem de Dados</h5>""", unsafe_allow_html=True)
+                ##completar 
+                st.markdown("""Tela de Crescimento:
+                 \\
+                           
+                             """)
                 
 
 
