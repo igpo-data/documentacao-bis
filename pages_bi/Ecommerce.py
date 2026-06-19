@@ -268,7 +268,7 @@ def render():
 
 
         render_ecommerce_interativo()
-     st.markdown(""" Ocorrência do Painel: 
+        st.markdown(""" Ocorrência do Painel: 
                     \\
         Há ocorrencias que são retiradas da visualização do painel, como            
         **Tipo: Cliente** 
