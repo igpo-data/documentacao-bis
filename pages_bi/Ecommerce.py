@@ -188,8 +188,8 @@ def render():
                 <div class="hotspot" style="left:13%; top:17%; width:14%; height:8%;">
                     <div class="tooltip">
                         <h3>Rota de Entrega</h3>
-                        <p>Mostra a quantidade de CT-e que estão com última ocorrência 1, 
-                        um ponto importante é que o botão é sobre a figura. 
+                        <p>Mostra a quantidade de CT-e que estão em rota de entrega,
+                        considerando a última ocorrência operacional registrada para o documento.
                         <code>dim_Ocorencia (cod_Ocorrencia, nom_Ocorrencia)</code>
                         
                         </p>
@@ -199,35 +199,38 @@ def render():
                 <div class="hotspot" style="left:28%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Atrasados</h3>
-                        <p>CTRC’s em que a data de previsão de entrega é menor que hoje.</p>
+                        <p>Quantidade de CTRC's pendentes cuja previsão de entrega é anterior à data atual.
+                        Representa entregas vencidas e ainda não finalizadas.</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:42%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencendo Hoje</h3>
-                        <p>CTRC’ s em que a data de previsão de entrega é igual a hoje. </p>
+                        <p>Quantidade de CTRC's pendentes com previsão de entrega igual à data atual.</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:56%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencem Amanhã</h3>
-                        <p>CTRC’ s em que a data de previsão de entrega é D+1.</p>
+                        <p>Quantidade de CTRC's pendentes com previsão de entrega para D+1,
+                        ou seja, o próximo dia em relação à data atual.</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:70%; top:17%; width:13%; height:8%;">
                     <div class="tooltip">
                         <h3>Vencem em 2 Dias</h3>
-                        <p>CTRC’ s em que a data de previsão de entrega é D+2.</p>
+                        <p>Quantidade de CTRC's pendentes com previsão de entrega para D+2.</p>
                     </div>
                 </div>
 
                 <div class="hotspot" style="left:84%; top:17%; width:15%; height:8%;">
                     <div class="tooltip">
-                        <h3>Vencem essa Semana</h3>
-                        <p>Vencem essa semana: CTRC’ s em que a data de previsão de entrega é D+7.</p>
+                        <h3>Vencem nos próximos 7 dias</h3>
+                        <p>Quantidade de CTRC's pendentes com previsão de entrega dentro dos próximos
+                        7 dias, considerando a data atual como referência.</p>
                     </div>
                 </div>
 
@@ -265,7 +268,27 @@ def render():
 
 
         render_ecommerce_interativo()
-
+        st.markdown(""" Ocorrência do Painel: 
+                    \\
+        Há ocorrencias que são retiradas da visualização do painel, como            
+        **Tipo: Cliente** 
+        AGUARD. AUTORIZACAO PARA DEV. -> 32 
+        MERCADORIA CONFISCADA PELA FISCALIZACAO -> 66
+        **Tipo: Pendência**
+        MERCADORIA EM INDENIZACAO -> 48
+                    \\
+        **Tipo: Baixa**
+        CTRC BAIXADO / CANCELADO ->83
+        CONHECIMENTO SUBSTITUIDO->87
+        DEVOLUCAO RECUSA TOTAL -> 61
+        DEVOLUCAO RECUSA PARCIAL -> 62
+        MERCADORIA INDENIZADA -> 94
+        CTRC PARA EFEITO DE FRETE ->97
+        BAIXA AUTORIZADA DIRETORIA -> 39
+                    \\
+        **Tipo: Informativo** 
+        ANEXADO COMPROVANTE DE ENTREGA COMPLEMENTAR -> 76
+                    """)
     with abas[8]:
         st.markdown("""Nesse BI é feito pela extração da 455 junto com a sua complementar A, sendo as colunas necessárias: 
         - Serie/Numero CTRC : Comtemplar a tabela de exportação, medida de soma de quantidade de CTRC dentro do período e constitui filtro. 

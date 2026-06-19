@@ -81,6 +81,10 @@ elif menu == "Situação Coleta":
     from pages_bi import coleta
     coleta.render() 
 
+elif menu == "Indenização":
+    from pages_bi import coleta
+    indenizacao.render() 
+    
 elif menu == "Cotação":   st.write("Em construção...")
 elif menu == "Faturamento":   st.write("Em construção...")
 elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
