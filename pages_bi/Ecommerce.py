@@ -268,7 +268,7 @@ def render():
 
 
         render_ecommerce_interativo()
-        st.markdown(""" Ocorrência do Painel: 
+     st.markdown(""" Ocorrência do Painel: 
                     \\
         Há ocorrencias que são retiradas da visualização do painel, como            
         **Tipo: Cliente** 
@@ -288,7 +288,7 @@ def render():
                     \\
         **Tipo: Informativo** 
         ANEXADO COMPROVANTE DE ENTREGA COMPLEMENTAR -> 76
-                    """)
+     """)
     with abas[8]:
         st.markdown("""Nesse BI é feito pela extração da 455 junto com a sua complementar A, sendo as colunas necessárias: 
         - Serie/Numero CTRC : Comtemplar a tabela de exportação, medida de soma de quantidade de CTRC dentro do período e constitui filtro. 
