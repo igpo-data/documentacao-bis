@@ -272,21 +272,32 @@ def render():
                     \\
         Há ocorrencias que são retiradas da visualização do painel, como            
         **Tipo: Cliente** 
+                    \\
         AGUARD. AUTORIZACAO PARA DEV. -> 32 
+                    \\
         MERCADORIA CONFISCADA PELA FISCALIZACAO -> 66
+                    \\
         **Tipo: Pendência**
+                    \\
         MERCADORIA EM INDENIZACAO -> 48
                     \\
         **Tipo: Baixa**
         CTRC BAIXADO / CANCELADO ->83
+                    \\
         CONHECIMENTO SUBSTITUIDO->87
+                    \\
         DEVOLUCAO RECUSA TOTAL -> 61
+                    \\
         DEVOLUCAO RECUSA PARCIAL -> 62
+                    \\
         MERCADORIA INDENIZADA -> 94
+                    \\
         CTRC PARA EFEITO DE FRETE ->97
+                    \\
         BAIXA AUTORIZADA DIRETORIA -> 39
                     \\
         **Tipo: Informativo** 
+                    \\
         ANEXADO COMPROVANTE DE ENTREGA COMPLEMENTAR -> 76
      """)
     with abas[8]:
