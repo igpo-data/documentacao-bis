@@ -274,7 +274,4 @@ def render():
                     - HORA
                     """)
 
-            st.info(
-                "Essa estrutura apoia validações, rastreabilidade e análises de "
-                "consistência dos dados dentro do modelo."
-            )
+          
