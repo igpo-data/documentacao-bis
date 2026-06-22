@@ -123,7 +123,7 @@ def render():
             securityLevel: 'loose'
         });
         </script>
-        """, height=500)
+        """, height=400)
     with abas[1]:
         #st.header("Titulo Grandão")
 
