@@ -38,89 +38,80 @@ def render():
         st.markdown("""
                             <h5>Dados Brutos.</h5>""", unsafe_allow_html=True)
         
-       ########### tabela de exemplo 
-    st.markdown("""**Mapeamento da 206** """)
-    
-    tabela206 = pd.DataFrame({
+        st.markdown("""**Mapeamento da 206** """)
+        tabela206 = pd.DataFrame({
+            " Nome ": [
+                "NF-E",
+                "CHAVE DANFE",
+                "XML",
+                "NR1/NR2",
+                "CTR",
+            ],
+            "Descrição": [
+                "Número da Nota Fiscal.",
+                "Chave pode ser copiada com Ctrl-V e colada com Ctrl-C na opção 004 para gerar o CT-e correspondente.",
+                "O S indica que o XML da DANFE está disponível, o que facilita a geração do CT-e.",
+                "Etiquetas sequenciais dos volumes coletados utilizadas para descarregamento com SSWBar.",
+                "S indica que no momento da geração do relatório o pré-CTRC já se encontra emitido.",
+            ],
+        })
+        st.dataframe(tabela206, use_container_width=True, hide_index=True)
 
-                    " Nome ": [
-                    "NF-E",
-                    "CHAVE DANFE",
-                    "XML",
-                    "NR1/NR2",
-                    "CTR"
-                ],
+        st.markdown("""**Mapeamento da 915** """)
+        tabela915 = pd.DataFrame({
+            " Nome ": [
+                "sigla_ctrc",
+                "numero_ctrc",
+                "data_emissao",
+                "hora_emissao",
+                "nro_chave_acesso_cte",
+            ],
+            "Descrição": [
+                "Sigla do CTRC emitido.",
+                "Número do CTRC emitido.",
+                "Data de emissão do CTRC.",
+                "Hora de emissão do CTRC.",
+                "Chave de acesso do CT-e/NF-e retornada pela base 915.",
+            ],
+        })
+        st.dataframe(tabela915, use_container_width=True, hide_index=True)
 
-                "Descrição": [
-                    "Número da Nota Fiscal.",
-                    "Chave pode ser copiada com Ctrl-V e colada com Ctrl-C na opção 004 para gerar o CT-e correspondente.",
-                    "O S indica que o XML da DANFE está disponível, o que facilita a geração do CT-e.",
-                    "Etiquetas sequenciais dos volumes coletados utilizadas para descarregamento com SSWBar.",
-                    "S indica que no momento da geração do relatório o pré-CTRC já se encontra emitido."
-                ],
-
-            })
-    st.markdown("""**Mapeamento da 915** """)
-    
-    tabela915 = pd.DataFrame({
-
-                    " Nome ": [
-                    "NF-E",
-                    "CHAVE DANFE",
-                    "XML",
-                    "NR1/NR2",
-                    "CTR"
-                ],
-
-                "Descrição": [
-                    "Número da Nota Fiscal.",
-                    "Chave pode ser copiada com Ctrl-V e colada com Ctrl-C na opção 004 para gerar o CT-e correspondente.",
-                    "O S indica que o XML da DANFE está disponível, o que facilita a geração do CT-e.",
-                    "Etiquetas sequenciais dos volumes coletados utilizadas para descarregamento com SSWBar.",
-                    "S indica que no momento da geração do relatório o pré-CTRC já se encontra emitido."
-                ],
-
-            })
-    st.dataframe(
-                    tabela915,
-                    use_container_width=True,
-                    hide_index=True
-                )
-    components.html("""
+        components.html("""
         <div class="mermaid">
         erDiagram
-
-            206{
+            VW_206 {
                 int id PK
-                string Veiculo
-                numeric Motorista
-                time Hora
-                int Coleta
-                string CNPJ Remetente
-                text Remetente
-                int NF-E 
-                string Chave Danfe
-                text XML 
-                text NR1
-                text NR2
-                text CTR
-                
+                string veiculo
+                numeric motorista
+                time hora
+                int coleta
+                string cnpj_remetente
+                text remetente
+                int nf_e
+                string chave_danfe
+                text xml
+                text nr1
+                text nr2
+                text ctr
             }
 
-            915 {
+            VIEW_915 {
                 int id PK
                 string sigla_ctrc
                 string numero_ctrc
-                date coluna_3
-               sigla_cte	 
-              numero_cte	
-                     ctrc/subcontr	 nro_chave_acesso_cte	 situacao_ctrc	 data_emissao	 hora_emissao	 prev_ent	 fil_dest	 praca_destino	 cidade_destino	 uf_destino	 qtde_volume	 tipo_mercadoria	 veiculo_coleta	 veiculo_entrega	 cubagem_m3	 kg_real	 kg_calculo	 valor_n_fiscal	 tipo_frete	 sit_liquidacao	 numero_controle	 usu_inc	 remetente_nome	 remetente_cnpj	 remetente_inscr	 remet_endereco	 remet_cep	 remet_cidade	 remet_uf	 remet_data_inc	 destinatario_nome	 dest_cnpj	 dest_inscr	 dest_endereco	 dest_cep	 dest_cidade	 dest_uf	 dest_data_inc	 pagador_nome	 pag_cnpj	 pag_inscr	 pag_endereco	 pag_cep	 pag_cidade	 pag_uf	 pag_data_inc	 unid_resp_pagador	 observ1	 observ2	 entrega/redesp_nome	 entr_endereco	 entr_cep	 entr_cidade	 entr_uf	 ult_ocorr_local	 ult_ocorr_data	 ult_ocorr_hora	 ult_ocorr_codigo	 ult_ocorr_descricao	 ult_instr	 distancia_km	 tarifa	 tabela_calculo	 desc_tabela	 frete_peso	 frete_valor	 aliquota	 vlr_icms	vlr_imposto_cli	despacho	 cat	itr	 gris	coleta	 tde	trt	 canhoto	pedagio	 outros_impostos	desconto	 suframa	tda	 valor_tas	reembolso	 valor_pos	valor_frete	cfop	 tipo_cobranca	fatura	 valor_liquido	vlr_liquidado	 data_liquidacao	data_credito_caixa	 rel_comissao_exp	rel_comissao rec	 rel_comissao_vend	pacote	 sgl_unid_emit	nro_manifesto	 cod_vendedor	nome_vendedor	 tipo_documento	entrega_dificil	adicional_frete	vlr_comissao_rec	vlr_comissao_exp	tar	data_autorizacao	hora_autorizacao	vlr_agendamento
-
+                string sigla_cte
+                string numero_cte
+                string nro_chave_acesso_cte
+                date data_emissao
+                time hora_emissao
+                date data_autorizacao
+                time hora_autorizacao
+                string situacao_ctrc
+                string uf_destino
+                string cidade_destino
             }
 
-            %% Relacionamento futuro
-            %% TABELA_1 ||--o{ TABELA_2 : chave_a_definir
-
+            VW_206 ||--o{ VIEW_915 : id_danfe_nfe
         </div>
 
         <script type="module">
