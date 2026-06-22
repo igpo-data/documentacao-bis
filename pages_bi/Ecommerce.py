@@ -281,8 +281,11 @@ def render():
 
             components.html(html, height=900, scrolling=True)
 
-        def render_card_filtro(nome, left, width, descricao, right=False):
-            imagem = img_to_base64("img/ecommerce_nce.PNG")
+        def render_card_filtro(nome, imagem_path, left, width, descricao, right=False):
+            if not Path(imagem_path).exists():
+                imagem_path = "img/ecommerce_nce.PNG"
+
+            imagem = img_to_base64(imagem_path)
             classe = "hotspot right" if right else "hotspot"
 
             html = f"""
@@ -379,6 +382,7 @@ def render():
             cards = [
                 {
                     "nome": "Rota de Entrega",
+                    "imagem": "img/Ecommerce_RE.jpg",
                     "left": 13.1,
                     "width": 14.1,
                     "right": False,
@@ -390,6 +394,7 @@ def render():
                 },
                 {
                     "nome": "Atrasados",
+                    "imagem": "img/Ecommerce_Atrasados.jpg",
                     "left": 28.0,
                     "width": 13.0,
                     "right": False,
@@ -401,6 +406,7 @@ def render():
                 },
                 {
                     "nome": "Vencendo Hoje",
+                    "imagem": "img/Ecommerce_VencendoH.jpg",
                     "left": 42.1,
                     "width": 12.3,
                     "right": False,
@@ -411,6 +417,7 @@ def render():
                 },
                 {
                     "nome": "Vencem Amanhã",
+                    "imagem": "img/Ecommerce_VencemA.jpg",
                     "left": 55.2,
                     "width": 13.1,
                     "right": False,
@@ -421,6 +428,7 @@ def render():
                 },
                 {
                     "nome": "Vencem em 2 Dias",
+                    "imagem": "img/Ecommerce_Vencem2.jpg",
                     "left": 69.5,
                     "width": 13.3,
                     "right": True,
@@ -431,6 +439,7 @@ def render():
                 },
                 {
                     "nome": "Vencem nos Próximos 7 dias",
+                    "imagem": "img/Ecommerce_Vencem7.jpg",
                     "left": 83.9,
                     "width": 15.3,
                     "right": True,
@@ -445,6 +454,7 @@ def render():
                 with st.expander(card["nome"]):
                     render_card_filtro(
                         card["nome"],
+                        card["imagem"],
                         card["left"],
                         card["width"],
                         card["descricao"],
