@@ -29,7 +29,8 @@ def render():
         def img_to_base64(path):
             return base64.b64encode(Path(path).read_bytes()).decode()
 
-
+        st.markdown("""
+    <h5>Visão Interativa do Painel de NCE Pendentes</h5> """, unsafe_allow_html=True)
         def render_ecommerce_interativo():
             imagem = img_to_base64("img/ecommerce_nce.PNG")
 
@@ -280,8 +281,178 @@ def render():
 
             components.html(html, height=900, scrolling=True)
 
+        def render_card_filtro(nome, left, width, descricao, right=False):
+            imagem = img_to_base64("img/ecommerce_nce.PNG")
+            classe = "hotspot right" if right else "hotspot"
+
+            html = f"""
+            <style>
+                .painel-card {{
+                    position: relative;
+                    width: 100%;
+                    max-width: 1550px;
+                    margin: auto;
+                }}
+
+                .painel-card img {{
+                    width: 100%;
+                    border-radius: 8px;
+                }}
+
+                .hotspot {{
+                    position: absolute;
+                    cursor: pointer;
+                    border: 3px solid #00BFFF;
+                    background: rgba(0,191,255,0.12);
+                    box-shadow: 0 0 10px rgba(0,191,255,0.55);
+                    transition: 0.2s;
+                }}
+
+                .hotspot:hover {{
+                    background: rgba(0,191,255,0.24);
+                    box-shadow: 0 0 18px rgba(0,191,255,0.85);
+                }}
+
+                .tooltip {{
+                    visibility: hidden;
+                    opacity: 0;
+                    position: absolute;
+                    z-index: 9999;
+                    width: 390px;
+                    background: white;
+                    color: #333;
+                    border-radius: 14px;
+                    padding: 16px;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.30);
+                    font-family: Arial, sans-serif;
+                    top: 110%;
+                    left: 0;
+                    transition: opacity 0.25s ease;
+                }}
+
+                .tooltip h3 {{
+                    margin-top: 0;
+                    color: #0b4f8a;
+                    font-size: 18px;
+                }}
+
+                .tooltip p {{
+                    font-size: 14px;
+                    line-height: 1.45;
+                    margin-bottom: 0;
+                }}
+
+                .hotspot:hover .tooltip {{
+                    visibility: visible;
+                    opacity: 1;
+                }}
+
+                .hotspot.right .tooltip {{
+                    left: auto;
+                    right: 0;
+                }}
+            </style>
+
+            <div class="painel-card">
+                <img src="data:image/png;base64,{imagem}">
+                <div class="{classe}" style="left:{left}%; top:17.2%; width:{width}%; height:8.0%;">
+                    <div class="tooltip">
+                        <h3>{nome}</h3>
+                        <p>{descricao}</p>
+                    </div>
+                </div>
+            </div>
+            """
+
+            components.html(html, height=900, scrolling=True)
+
+        def render_documentacao_cards():
+            st.markdown("""
+            <h5>Cards como filtros do painel</h5>
+            """, unsafe_allow_html=True)
+            st.info(
+                "Esta visão é voltada para CTRC's pendentes de entrega. "
+                "Os cards funcionam como filtros: ao clicar em um card no Power BI, "
+                "todos os visuais passam a considerar somente a regra daquele card."
+            )
+
+            cards = [
+                {
+                    "nome": "Rota de Entrega",
+                    "left": 13.1,
+                    "width": 14.1,
+                    "right": False,
+                    "descricao": (
+                        "Filtra os CTRC's pendentes cuja última ocorrência é a 20. "
+                        "Na prática, são documentos que já foram roteirizados e estão "
+                        "em saída para entrega."
+                    ),
+                },
+                {
+                    "nome": "Atrasados",
+                    "left": 28.0,
+                    "width": 13.0,
+                    "right": False,
+                    "descricao": (
+                        "Filtra os CTRC's pendentes em que a data de hoje é maior que "
+                        "a data de previsão de entrega. São entregas vencidas e ainda "
+                        "não finalizadas."
+                    ),
+                },
+                {
+                    "nome": "Vencendo Hoje",
+                    "left": 42.1,
+                    "width": 12.3,
+                    "right": False,
+                    "descricao": (
+                        "Filtra os CTRC's pendentes cuja data de previsão de entrega "
+                        "é igual à data de hoje."
+                    ),
+                },
+                {
+                    "nome": "Vencem Amanhã",
+                    "left": 55.2,
+                    "width": 13.1,
+                    "right": False,
+                    "descricao": (
+                        "Filtra os CTRC's pendentes cuja data de previsão de entrega "
+                        "é amanhã, ou seja, D+1 em relação à data atual."
+                    ),
+                },
+                {
+                    "nome": "Vencem em 2 Dias",
+                    "left": 69.5,
+                    "width": 13.3,
+                    "right": True,
+                    "descricao": (
+                        "Filtra os CTRC's pendentes cuja data de previsão de entrega "
+                        "é D+2 em relação à data atual."
+                    ),
+                },
+                {
+                    "nome": "Vencem nos Próximos 7 dias",
+                    "left": 83.9,
+                    "width": 15.3,
+                    "right": True,
+                    "descricao": (
+                        "Filtra os CTRC's pendentes com previsão de entrega dentro dos "
+                        "próximos 7 dias, considerando a data atual como referência."
+                    ),
+                },
+            ]
+
+            for card in cards:
+                with st.expander(card["nome"]):
+                    render_card_filtro(
+                        card["nome"],
+                        card["left"],
+                        card["width"],
+                        card["descricao"],
+                        card["right"],
+                    )
 
         render_ecommerce_interativo()
+        render_documentacao_cards()
         st.markdown(""" Ocorrência do Painel: 
                     \\
         Há ocorrencias que são retiradas da visualização do painel, como            
@@ -327,3 +498,5 @@ def render():
         - Data de hoje - Previsão de entrega = Atraso do CTRC. Nessa contexto formatação da dim_Previsão de Entrega aqui. 
                     
                      """)
+
+
