@@ -125,7 +125,7 @@ def render():
                 <div class="hotspot" style="left:23.2%; top:8.6%; width:11.3%; height:7.9%;">
                     <div class="tooltip">
                         <h3>UF/Destino</h3>
-                        <p>Filtro usado para analisar a performance por região ou destino da entrega.
+                        <p>Filtro usado para analisar a performance por região ou destino da entrega, 
                          <code>dim_UnidadeReceptora (nom_UF, cod_UnidadeReceptora)</code>
                         </p>
                     </div>
@@ -162,7 +162,7 @@ def render():
                 <div class="hotspot right" style="left:78.3%; top:8.6%; width:13.1%; height:7.9%;">
                     <div class="tooltip">
                         <h3>CTRC</h3>
-                        <p>Filtro usado para consultar a situação individual de uma entrega.</p>
+                        <p>Filtro usado para consultar a situação individual de um CTRC.</p>
                     </div>
                 </div>
 
