@@ -68,18 +68,30 @@ area = st.sidebar.radio(
     ["Banco de dados", "BI's"],
 )
 
+search_term = st.text_input(
+    "Pesquisar",
+    placeholder="Digite o nome de um BI ou procedure...",
+).strip()
+
 if area == "Banco de dados":
     from pages_database import procedures
 
-    procedures.render()
+    procedures.render(search_term)
 else:
-    bi = st.sidebar.radio("BI", BI_OPTIONS)
-    module_name = BI_MODULES.get(bi)
+    filtered_bis = [
+        bi for bi in BI_OPTIONS if search_term.casefold() in bi.casefold()
+    ]
 
-    if module_name:
-        importlib.import_module(module_name).render()
-    elif bi == "Acompanhamento Comercial":
-        st.info("Esse BI está dentro do Visão Geral, em uma de suas páginas.")
+    if not filtered_bis:
+        st.info("Nenhum BI encontrado com esse nome.")
     else:
-        st.title(bi)
-        st.info("Documentação em construção.")
+        bi = st.sidebar.radio("BI", filtered_bis)
+        module_name = BI_MODULES.get(bi)
+
+        if module_name:
+            importlib.import_module(module_name).render()
+        elif bi == "Acompanhamento Comercial":
+            st.info("Esse BI está dentro do Visão Geral, em uma de suas páginas.")
+        else:
+            st.title(bi)
+            st.info("Documentação em construção.")
