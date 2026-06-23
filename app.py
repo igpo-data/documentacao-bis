@@ -1,96 +1,85 @@
+import importlib
+
 import streamlit as st
 
+
 st.set_page_config(
-    page_title="Documentação dos BIs",
-    layout="wide"
+    page_title="Documentação de Dados e BIs",
+    layout="wide",
 )
 
-#st.title("📊 Documentação dos BIs - Carvalima")
 
-menu = st.sidebar.radio(
-    "",
-    [
-        "Comercial Geral",
-        "Acompanhamento Comercial",
-        "Análise DFSA",
-        "Anomalias e Cancelamentos",
-        "Comprovante de Entrega", 
-        "Contas a Pagar",
-        "Contas a Receber",  
-        "Comprovante de Entrega", 
-        "Controle de Ocorrência",
-        "Cotação",
-        "Custo de Transferência",
-        "Demonstrativo Coleta e Entrega",
-        "Descarga",
-        "DRE", 
-        "DRE Filiais",
-        "DRE PPR",
-        "E-commerce",
-        "Embarques",
-        "Faturamento",
-        "Inadimplência - Filial",
-        "Indenização",
-        "Performance Geral", 
-        "Produtividade Comercial",
-        "SAC",
-        "Situação Coleta",
-        "SSW Mobile",
-        "Torre de Controle",
-        "Analise Churn",
-        "modelo",
-        "SuperAção", 
-        "Faturamento Interno",
-        "Coletas"
-        ]
+BI_OPTIONS = [
+    "Comercial Geral",
+    "Acompanhamento Comercial",
+    "Análise DFSA",
+    "Anomalias e Cancelamentos",
+    "Comprovante de Entrega",
+    "Contas a Pagar",
+    "Contas a Receber",
+    "Controle de Ocorrência",
+    "Cotação",
+    "Custo de Transferência",
+    "Demonstrativo Coleta e Entrega",
+    "Descarga",
+    "DRE",
+    "DRE Filiais",
+    "DRE PPR",
+    "E-commerce",
+    "Embarques",
+    "Faturamento",
+    "Inadimplência - Filial",
+    "Indenização",
+    "Performance Geral",
+    "Produtividade Comercial",
+    "SAC",
+    "Situação Coleta",
+    "SSW Mobile",
+    "Torre de Controle",
+    "Analise Churn",
+    "modelo",
+    "SuperAção",
+    "Faturamento Interno",
+    "Coletas",
+]
+
+# Módulos de documentação que já existem no projeto.
+BI_MODULES = {
+    "Comercial Geral": "pages_bi.bi_Comercial_Geral",
+    "Analise Churn": "pages_bi.analise_churn",
+    "Anomalias e Cancelamentos": "pages_bi.Anomalias",
+    "Cotação": "pages_bi.cotacao",
+    "Descarga": "pages_bi.Descarga",
+    "E-commerce": "pages_bi.Ecommerce",
+    "Embarques": "pages_bi.embarque",
+    "Faturamento Interno": "pages_bi.Financeiro2024",
+    "Indenização": "pages_bi.indenizacao",
+    "Performance Geral": "pages_bi.Performance_Geral",
+    "Situação Coleta": "pages_bi.coleta",
+    "Coletas": "pages_bi.coleta",
+    "SuperAção": "pages_bi.EmissoesAntecipadas",
+    "modelo": "pages_bi.modelo",
+}
+
+
+st.sidebar.title("Documentação")
+area = st.sidebar.radio(
+    "Área",
+    ["Banco de dados", "BI's"],
 )
 
-if menu == "Comercial Geral":
-    from pages_bi import bi_Comercial_Geral
-    bi_Comercial_Geral.render()
+if area == "Banco de dados":
+    from pages_database import procedures
 
-elif menu == "Analise Churn": 
-    from pages_bi import analise_churn
-    analise_churn.render() 
+    procedures.render()
+else:
+    bi = st.sidebar.radio("BI", BI_OPTIONS)
+    module_name = BI_MODULES.get(bi)
 
-elif menu == "Descarga": 
-     from pages_bi import Descarga
-     Descarga.render() 
-
-elif menu == "Performance Geral": 
-     from pages_bi import Performance_Geral
-     Performance_Geral.render() 
-    
-elif menu == "modelo":
-    from pages_bi import modelo
-    modelo.render()   
-
-elif menu == "E-commerce":
-    from pages_bi import Ecommerce
-    Ecommerce.render()  
-
-elif menu == "SuperAção":
-    from pages_bi import EmissoesAntecipadas
-    EmissoesAntecipadas.render() 
-
-elif menu == "Faturamento Interno":
-    from pages_bi import Financeiro2024
-    Financeiro2024.render() 
-
-elif menu == "Situação Coleta":
-    from pages_bi import coleta
-    coleta.render() 
-
-elif menu == "Indenização":
-    from pages_bi import coleta
-    indenizacao.render() 
-    
-elif menu == "Cotação":   st.write("Em construção...")
-elif menu == "Faturamento":   st.write("Em construção...")
-elif menu == "Anomalias e Cancelamentos":    st.write("Em construção...")
-elif menu == "Análise DFSA": st.write("Em construção...")
-elif menu == "Torre de Controle":   st.write("Em construção...")
-elif menu == "Acompanhamento Comercial":   st.write("Esse BI está dentro do Visão Geral em uma das páginas dele.")
-elif menu == "Comprovante de Entrega":   st.write("Em construção...")
-
-   
+    if module_name:
+        importlib.import_module(module_name).render()
+    elif bi == "Acompanhamento Comercial":
+        st.info("Esse BI está dentro do Visão Geral, em uma de suas páginas.")
+    else:
+        st.title(bi)
+        st.info("Documentação em construção.")
