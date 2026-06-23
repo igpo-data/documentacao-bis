@@ -135,14 +135,9 @@ def _render_procedures(procedures, search_term):
             st.markdown(f"**Finalidade:** {description}")
 
 
-def render():
+def render(search_term=""):
     st.title("Banco de dados")
     st.write("Documentação das procedures utilizadas nas rotinas de dados.")
-
-    search_term = st.text_input(
-        "Pesquisar procedure",
-        placeholder="Digite o nome da procedure...",
-    ).strip()
 
     update_tab, deduplication_tab = st.tabs(
         ["Procedures de atualização", "Procedures de remoção de duplicadas"]
