@@ -1,4 +1,6 @@
 import importlib
+import subprocess
+from pathlib import Path
 
 import streamlit as st
 
@@ -62,6 +64,46 @@ BI_MODULES = {
 }
 
 
+@st.cache_data(ttl=300)
+def get_recent_commit_counts(days):
+    counts = {}
+
+    for bi, module_name in BI_MODULES.items():
+        module_path = Path(*module_name.split(".")).with_suffix(".py")
+
+        try:
+            result = subprocess.run(
+                [
+                    "git",
+                    "log",
+                    f"--since={days} days ago",
+                    "--format=%H",
+                    "--",
+                    str(module_path),
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        except Exception:
+            counts[bi] = 0
+            continue
+
+        if result.returncode != 0:
+            counts[bi] = 0
+            continue
+
+        counts[bi] = len([line for line in result.stdout.splitlines() if line.strip()])
+
+    return counts
+
+
+def sort_bis_by_recent_commits(bis, commit_counts):
+    return sorted(
+        bis,
+        key=lambda bi: (-commit_counts.get(bi, 0), bi.casefold()),
+    )
+
 st.sidebar.title("Documentação")
 area = st.sidebar.radio(
     "Área",
@@ -78,14 +120,42 @@ if area == "Banco de dados":
 
     procedures.render(search_term)
 else:
+    sort_mode = st.sidebar.radio(
+        "Ordenação dos BI's",
+        ["Lista padrão", "Mais comitados recentemente"],
+    )
+
+    commit_counts = {}
+    if sort_mode == "Mais comitados recentemente":
+        commit_days = st.sidebar.slider(
+            "Período dos commits",
+            min_value=1,
+            max_value=60,
+            value=14,
+            help="Quantidade de dias usada para contar commits por página de BI.",
+        )
+        commit_counts = get_recent_commit_counts(commit_days)
+        bi_options = sort_bis_by_recent_commits(BI_OPTIONS, commit_counts)
+        st.sidebar.caption(f"Ordenado pelos commits dos últimos {commit_days} dias.")
+    else:
+        bi_options = BI_OPTIONS
+
     filtered_bis = [
-        bi for bi in BI_OPTIONS if search_term.casefold() in bi.casefold()
+        bi for bi in bi_options if search_term.casefold() in bi.casefold()
     ]
 
     if not filtered_bis:
         st.info("Nenhum BI encontrado com esse nome.")
     else:
-        bi = st.sidebar.radio("BI", filtered_bis)
+        def format_bi_option(bi):
+            if sort_mode != "Mais comitados recentemente":
+                return bi
+
+            count = commit_counts.get(bi, 0)
+            label = "commit" if count == 1 else "commits"
+            return f"{bi} ({count} {label})"
+
+        bi = st.sidebar.radio("BI", filtered_bis, format_func=format_bi_option)
         module_name = BI_MODULES.get(bi)
 
         if module_name:
