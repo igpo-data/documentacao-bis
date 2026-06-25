@@ -25,6 +25,224 @@ def render():
         "Modelagem e Extração"
     ])
 
+    with abas[2]:
+        st.markdown("### Analítico de Quantidade e Valor de CTE")
+
+        st.markdown("""
+        Esta tela apresenta a análise do quantitativo de CTRC/CT-e e do valor do frete bruto,
+        permitindo acompanhar o comportamento da operação por período, unidade, cliente e demais
+        dimensões disponíveis no painel.
+
+        A visão foi estruturada em duas perspectivas:
+
+        - **Visão por Autorização:** considera a data de autorização do CT-e como referência temporal.
+        - **Visão por Entrega:** considera a data de entrega como referência temporal.
+
+        Dessa forma, o usuário consegue avaliar tanto o volume autorizado quanto o volume efetivamente
+        entregue, além de comparar o comportamento do frete bruto dentro de cada contexto de análise.
+        """)
+
+        col_aut, col_ent = st.columns(2)
+
+        with col_aut:
+            st.markdown("#### Visão Autorização")
+            st.image(
+                "img/Ecommerce_AnaliticoAutorizacao.jpg",
+                caption="Analítico de Quantidade e Valor de CTE - Autorização",
+                use_container_width=True,
+            )
+
+        with col_ent:
+            st.markdown("#### Visão Entrega")
+            st.image(
+                "img/Ecommerce_AnaliticoEntrega.jpg",
+                caption="Analítico de Quantidade e Valor de CTE - Entrega",
+                use_container_width=True,
+            )
+
+        st.divider()
+
+        st.markdown("### Melhoria – Identificação de Outliers Operacionais")
+
+        st.markdown("""
+        #### Objetivo
+
+        Foi implementada uma melhoria no BI para permitir a identificação automática de comportamentos
+        atípicos na **Quantidade de CT-e** e no **Valor do Frete Bruto**, auxiliando o time Comercial
+        na detecção de alterações significativas no volume de movimentação das unidades.
+
+        O principal objetivo é evidenciar aumentos expressivos que possam indicar mudanças operacionais,
+        aquisição de novos clientes, absorção de demanda de outras transportadoras ou qualquer outro
+        evento que provoque um crescimento fora do padrão histórico.
+
+        #### Critério de Comparação
+
+        Como referência histórica, foi adotada a **mediana do mesmo mês do ano anterior**.
+        """)
+
+        st.table(pd.DataFrame({
+            "Período analisado": ["Junho/2026", "Julho/2026", "Agosto/2026"],
+            "Referência utilizada": [
+                "Mediana diária de Junho/2025",
+                "Mediana diária de Julho/2025",
+                "Mediana diária de Agosto/2025",
+            ],
+        }))
+
+        st.markdown("""
+        Essa abordagem permite comparar períodos equivalentes, reduzindo impactos causados por sazonalidade.
+
+        #### Justificativa da utilização da Mediana
+
+        Foi utilizada a mediana em vez da média por representar melhor o comportamento típico da operação.
+
+        A mediana possui menor influência de valores extremamente altos ou baixos (*outliers*), tornando
+        a comparação mais estável e confiável para análise operacional. Dessa forma, eventos isolados não
+        distorcem o valor de referência utilizado pelo indicador.
+
+        #### Medidas Implementadas
+
+        **Mediana CT-e Mesmo Mês Ano Anterior**
+
+        Calcula a mediana da Quantidade de CT-e considerando todos os dias do mesmo mês do ano anterior.
+
+        **Objetivo:** estabelecer uma referência histórica para comparação com o período atual.
+
+        **Índice de Crescimento CT-e**
+
+        Calcula o percentual de crescimento da Quantidade de CT-e em relação à mediana histórica.
+
+        Fórmula utilizada:
+
+        `Índice de Crescimento = (Quantidade CT-e Atual - Mediana Histórica) / Mediana Histórica`
+        """)
+
+        st.table(pd.DataFrame({
+            "Resultado": ["0%", "20%", "80%", "100%", "-15%"],
+            "Significado": [
+                "Igual à mediana",
+                "20% acima da mediana",
+                "80% acima da mediana",
+                "Volume equivalente ao dobro da mediana",
+                "15% abaixo da mediana",
+            ],
+        }))
+
+        st.markdown("""
+        **Indicador Visual (Cor Crescimento CT-e)**
+
+        Foi criado um indicador responsável por destacar visualmente os registros cujo crescimento seja
+        considerado significativo.
+
+        Critério utilizado:
+
+        - crescimento inferior a **80%** → indicador normal;
+        - crescimento igual ou superior a **80%** → destaque visual em amarelo.
+
+        Esse recurso facilita a identificação imediata de unidades ou períodos com crescimento acima do
+        comportamento histórico esperado.
+
+        #### Valor do Frete Bruto
+
+        A mesma metodologia foi aplicada ao indicador de **Valor do Frete Bruto**.
+
+        Foram desenvolvidas as seguintes medidas:
+
+        - Mediana do Valor do Frete do mesmo mês do ano anterior;
+        - Índice de Crescimento do Valor do Frete;
+        - Indicador visual de crescimento superior a 80%.
+
+        Assim, além do volume de CT-e, também é possível identificar variações relevantes no faturamento
+        operacional.
+
+        #### Benefícios da Melhoria
+
+        - Identificação rápida de outliers operacionais.
+        - Comparação baseada em períodos equivalentes, respeitando a sazonalidade.
+        - Maior confiabilidade estatística devido ao uso da mediana.
+        - Destaque automático de crescimentos relevantes.
+        - Apoio ao time Comercial na identificação de oportunidades, mudanças de mercado e alterações de comportamento das unidades.
+        - Redução da necessidade de análises manuais para localizar crescimentos expressivos.
+        """)
+
+        with st.expander("Medidas DAX - Visão Autorização"):
+            st.code("""
+Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao =
+VAR DataReferencia =
+    MAX('dim_PeriodoAutorizacao'[Data])
+
+VAR InicioMesAnoAnterior =
+    DATE(
+        YEAR(DataReferencia) - 1,
+        MONTH(DataReferencia),
+        1
+    )
+
+VAR FimMesAnoAnterior =
+    EOMONTH(InicioMesAnoAnterior, 0)
+
+RETURN
+MEDIANX(
+    FILTER(
+        ALL('dim_PeriodoAutorizacao'[Data]),
+        'dim_PeriodoAutorizacao'[Data] >= InicioMesAnoAnterior &&
+        'dim_PeriodoAutorizacao'[Data] <= FimMesAnoAnterior
+    ),
+    CALCULATE([Quantidade CT-e])
+)
+
+Índice Crescimento CT-e Autorizacao =
+DIVIDE(
+    [Quantidade CT-e] - [Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao],
+    [Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao]
+)
+
+Cor Crescimento CT-e Aut =
+IF(
+    [Índice Crescimento CT-e Autorizacao] >= 0.8,
+    1,
+    0
+)
+
+Mediana Vlr_Frete Mesmo Mês Ano Anterior_Aut =
+VAR DataReferencia =
+    MAX('dim_PeriodoAutorizacao'[Data])
+
+VAR InicioMesAnoAnterior =
+    DATE(
+        YEAR(DataReferencia) - 1,
+        MONTH(DataReferencia),
+        1
+    )
+
+VAR FimMesAnoAnterior =
+    EOMONTH(InicioMesAnoAnterior, 0)
+
+RETURN
+MEDIANX(
+    FILTER(
+        ALL('dim_PeriodoAutorizacao'[Data]),
+        'dim_PeriodoAutorizacao'[Data] >= InicioMesAnoAnterior &&
+        'dim_PeriodoAutorizacao'[Data] <= FimMesAnoAnterior
+    ),
+    CALCULATE([Valor Frete Bruto])
+)
+
+Índice Crescimento Valor Frete_AUT =
+DIVIDE(
+    [Valor Frete Bruto] - [Mediana Vlr_Frete Mesmo Mês Ano Anterior_Aut],
+    [Mediana Vlr_Frete Mesmo Mês Ano Anterior_Aut]
+)
+
+Cor Crescimento Frete_Aut =
+IF(
+    [Índice Crescimento Valor Frete_AUT] >= 0.8,
+    1,
+    0
+)
+""", language="DAX")
+
+
     with abas[0]:
         def img_to_base64(path):
             return base64.b64encode(Path(path).read_bytes()).decode()
@@ -495,223 +713,6 @@ def render():
                     \\
         ANEXADO COMPROVANTE DE ENTREGA COMPLEMENTAR -> 76
      """)
-    with abas[2]:
-        st.markdown("### Analítico de Quantidade e Valor de CTE")
-
-        st.markdown("""
-        Esta tela apresenta a análise do quantitativo de CTRC/CT-e e do valor do frete bruto,
-        permitindo acompanhar o comportamento da operação por período, unidade, cliente e demais
-        dimensões disponíveis no painel.
-
-        A visão foi estruturada em duas perspectivas:
-
-        - **Visão por Autorização:** considera a data de autorização do CT-e como referência temporal.
-        - **Visão por Entrega:** considera a data de entrega como referência temporal.
-
-        Dessa forma, o usuário consegue avaliar tanto o volume autorizado quanto o volume efetivamente
-        entregue, além de comparar o comportamento do frete bruto dentro de cada contexto de análise.
-        """)
-
-        col_aut, col_ent = st.columns(2)
-
-        with col_aut:
-            st.markdown("#### Visão Autorização")
-            st.image(
-                "img/Ecommerce_AnaliticoAutorizacao.jpg",
-                caption="Analítico de Quantidade e Valor de CTE - Autorização",
-                use_container_width=True,
-            )
-
-        with col_ent:
-            st.markdown("#### Visão Entrega")
-            st.image(
-                "img/Ecommerce_AnaliticoEntrega.jpg",
-                caption="Analítico de Quantidade e Valor de CTE - Entrega",
-                use_container_width=True,
-            )
-
-        st.divider()
-
-        st.markdown("### Melhoria – Identificação de Outliers Operacionais")
-
-        st.markdown("""
-        #### Objetivo
-
-        Foi implementada uma melhoria no BI para permitir a identificação automática de comportamentos
-        atípicos na **Quantidade de CT-e** e no **Valor do Frete Bruto**, auxiliando o time Comercial
-        na detecção de alterações significativas no volume de movimentação das unidades.
-
-        O principal objetivo é evidenciar aumentos expressivos que possam indicar mudanças operacionais,
-        aquisição de novos clientes, absorção de demanda de outras transportadoras ou qualquer outro
-        evento que provoque um crescimento fora do padrão histórico.
-
-        #### Critério de Comparação
-
-        Como referência histórica, foi adotada a **mediana do mesmo mês do ano anterior**.
-        """)
-
-        st.table(pd.DataFrame({
-            "Período analisado": ["Junho/2026", "Julho/2026", "Agosto/2026"],
-            "Referência utilizada": [
-                "Mediana diária de Junho/2025",
-                "Mediana diária de Julho/2025",
-                "Mediana diária de Agosto/2025",
-            ],
-        }))
-
-        st.markdown("""
-        Essa abordagem permite comparar períodos equivalentes, reduzindo impactos causados por sazonalidade.
-
-        #### Justificativa da utilização da Mediana
-
-        Foi utilizada a mediana em vez da média por representar melhor o comportamento típico da operação.
-
-        A mediana possui menor influência de valores extremamente altos ou baixos (*outliers*), tornando
-        a comparação mais estável e confiável para análise operacional. Dessa forma, eventos isolados não
-        distorcem o valor de referência utilizado pelo indicador.
-
-        #### Medidas Implementadas
-
-        **Mediana CT-e Mesmo Mês Ano Anterior**
-
-        Calcula a mediana da Quantidade de CT-e considerando todos os dias do mesmo mês do ano anterior.
-
-        **Objetivo:** estabelecer uma referência histórica para comparação com o período atual.
-
-        **Índice de Crescimento CT-e**
-
-        Calcula o percentual de crescimento da Quantidade de CT-e em relação à mediana histórica.
-
-        Fórmula utilizada:
-
-        `Índice de Crescimento = (Quantidade CT-e Atual - Mediana Histórica) / Mediana Histórica`
-        """)
-
-        st.table(pd.DataFrame({
-            "Resultado": ["0%", "20%", "80%", "100%", "-15%"],
-            "Significado": [
-                "Igual à mediana",
-                "20% acima da mediana",
-                "80% acima da mediana",
-                "Volume equivalente ao dobro da mediana",
-                "15% abaixo da mediana",
-            ],
-        }))
-
-        st.markdown("""
-        **Indicador Visual (Cor Crescimento CT-e)**
-
-        Foi criado um indicador responsável por destacar visualmente os registros cujo crescimento seja
-        considerado significativo.
-
-        Critério utilizado:
-
-        - crescimento inferior a **80%** → indicador normal;
-        - crescimento igual ou superior a **80%** → destaque visual em amarelo.
-
-        Esse recurso facilita a identificação imediata de unidades ou períodos com crescimento acima do
-        comportamento histórico esperado.
-
-        #### Valor do Frete Bruto
-
-        A mesma metodologia foi aplicada ao indicador de **Valor do Frete Bruto**.
-
-        Foram desenvolvidas as seguintes medidas:
-
-        - Mediana do Valor do Frete do mesmo mês do ano anterior;
-        - Índice de Crescimento do Valor do Frete;
-        - Indicador visual de crescimento superior a 80%.
-
-        Assim, além do volume de CT-e, também é possível identificar variações relevantes no faturamento
-        operacional.
-
-        #### Benefícios da Melhoria
-
-        - Identificação rápida de outliers operacionais.
-        - Comparação baseada em períodos equivalentes, respeitando a sazonalidade.
-        - Maior confiabilidade estatística devido ao uso da mediana.
-        - Destaque automático de crescimentos relevantes.
-        - Apoio ao time Comercial na identificação de oportunidades, mudanças de mercado e alterações de comportamento das unidades.
-        - Redução da necessidade de análises manuais para localizar crescimentos expressivos.
-        """)
-
-        with st.expander("Medidas DAX - Visão Autorização"):
-            st.code("""
-Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao =
-VAR DataReferencia =
-    MAX('dim_PeriodoAutorizacao'[Data])
-
-VAR InicioMesAnoAnterior =
-    DATE(
-        YEAR(DataReferencia) - 1,
-        MONTH(DataReferencia),
-        1
-    )
-
-VAR FimMesAnoAnterior =
-    EOMONTH(InicioMesAnoAnterior, 0)
-
-RETURN
-MEDIANX(
-    FILTER(
-        ALL('dim_PeriodoAutorizacao'[Data]),
-        'dim_PeriodoAutorizacao'[Data] >= InicioMesAnoAnterior &&
-        'dim_PeriodoAutorizacao'[Data] <= FimMesAnoAnterior
-    ),
-    CALCULATE([Quantidade CT-e])
-)
-
-Índice Crescimento CT-e Autorizacao =
-DIVIDE(
-    [Quantidade CT-e] - [Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao],
-    [Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao]
-)
-
-Cor Crescimento CT-e Aut =
-IF(
-    [Índice Crescimento CT-e Autorizacao] >= 0.8,
-    1,
-    0
-)
-
-Mediana Vlr_Frete Mesmo Mês Ano Anterior_Aut =
-VAR DataReferencia =
-    MAX('dim_PeriodoAutorizacao'[Data])
-
-VAR InicioMesAnoAnterior =
-    DATE(
-        YEAR(DataReferencia) - 1,
-        MONTH(DataReferencia),
-        1
-    )
-
-VAR FimMesAnoAnterior =
-    EOMONTH(InicioMesAnoAnterior, 0)
-
-RETURN
-MEDIANX(
-    FILTER(
-        ALL('dim_PeriodoAutorizacao'[Data]),
-        'dim_PeriodoAutorizacao'[Data] >= InicioMesAnoAnterior &&
-        'dim_PeriodoAutorizacao'[Data] <= FimMesAnoAnterior
-    ),
-    CALCULATE([Valor Frete Bruto])
-)
-
-Índice Crescimento Valor Frete_AUT =
-DIVIDE(
-    [Valor Frete Bruto] - [Mediana Vlr_Frete Mesmo Mês Ano Anterior_Aut],
-    [Mediana Vlr_Frete Mesmo Mês Ano Anterior_Aut]
-)
-
-Cor Crescimento Frete_Aut =
-IF(
-    [Índice Crescimento Valor Frete_AUT] >= 0.8,
-    1,
-    0
-)
-""", language="DAX")
-
     with abas[8]:
         st.markdown("""Nesse BI é feito pela extração da 455 junto com a sua complementar A, sendo as colunas necessárias: 
         - Serie/Numero CTRC : Comtemplar a tabela de exportação, medida de soma de quantidade de CTRC dentro do período e constitui filtro. 
