@@ -29,17 +29,17 @@ def render():
         st.markdown("### Analítico de Quantidade e Valor de CTE")
 
         st.markdown("""
-        Esta tela apresenta a análise do quantitativo de CTRC/CT-e e do valor do frete bruto,
+        Esta tela apresenta a análise do quantitativo de CTRC e do valor do frete bruto,
         permitindo acompanhar o comportamento da operação por período, unidade, cliente e demais
         dimensões disponíveis no painel.
 
         A visão foi estruturada em duas perspectivas:
 
         - **Visão por Autorização:** considera a data de autorização do CT-e como referência temporal.
-        - **Visão por Entrega:** considera a data de entrega como referência temporal.
+        - **Visão por Previsão de Entrega:** considera a data de Previsão de Entrega como referência temporal.
 
-        Dessa forma, o usuário consegue avaliar tanto o volume autorizado quanto o volume efetivamente
-        entregue, além de comparar o comportamento do frete bruto dentro de cada contexto de análise.
+        Dessa forma, o usuário consegue avaliar tanto o Quantitativo autorizado quanto o Quantitativo com previsão de
+        entrega, além de comparar o comportamento do frete bruto dentro de cada contexto de análise.
         """)
 
         col_aut, col_ent = st.columns(2)
@@ -62,7 +62,7 @@ def render():
 
         st.divider()
 
-        st.markdown("### Melhoria – Identificação de Outliers Operacionais")
+        st.markdown("### Melhoria MARCAÇÃO EM AMARELO")
 
         st.markdown("""
         #### Objetivo
@@ -79,16 +79,6 @@ def render():
 
         Como referência histórica, foi adotada a **mediana do mesmo mês do ano anterior**.
         """)
-
-        st.table(pd.DataFrame({
-            "Período analisado": ["Junho/2026", "Julho/2026", "Agosto/2026"],
-            "Referência utilizada": [
-                "Mediana diária de Junho/2025",
-                "Mediana diária de Julho/2025",
-                "Mediana diária de Agosto/2025",
-            ],
-        }))
-
         st.markdown("""
         Essa abordagem permite comparar períodos equivalentes, reduzindo impactos causados por sazonalidade.
 
@@ -117,17 +107,6 @@ def render():
         `Índice de Crescimento = (Quantidade CT-e Atual - Mediana Histórica) / Mediana Histórica`
         """)
 
-        st.table(pd.DataFrame({
-            "Resultado": ["0%", "20%", "80%", "100%", "-15%"],
-            "Significado": [
-                "Igual à mediana",
-                "20% acima da mediana",
-                "80% acima da mediana",
-                "Volume equivalente ao dobro da mediana",
-                "15% abaixo da mediana",
-            ],
-        }))
-
         st.markdown("""
         **Indicador Visual (Cor Crescimento CT-e)**
 
@@ -154,18 +133,9 @@ def render():
 
         Assim, além do volume de CT-e, também é possível identificar variações relevantes no faturamento
         operacional.
-
-        #### Benefícios da Melhoria
-
-        - Identificação rápida de outliers operacionais.
-        - Comparação baseada em períodos equivalentes, respeitando a sazonalidade.
-        - Maior confiabilidade estatística devido ao uso da mediana.
-        - Destaque automático de crescimentos relevantes.
-        - Apoio ao time Comercial na identificação de oportunidades, mudanças de mercado e alterações de comportamento das unidades.
-        - Redução da necessidade de análises manuais para localizar crescimentos expressivos.
         """)
 
-        with st.expander("Medidas DAX - Visão Autorização"):
+        with st.expander("Medidas DAX"):
             st.code("""
 Mediana CT-e Mesmo Mês Ano Anterior_Autorizacao =
 VAR DataReferencia =
