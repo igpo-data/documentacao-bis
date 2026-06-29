@@ -17,7 +17,7 @@ def render():
     ])
 
     with abas[0]:
-        st.header("Titulo Grandão")
+        st.header("em construção")
 
         st.markdown("""
                     <h4>Visual:</h4>""", unsafe_allow_html=True)
